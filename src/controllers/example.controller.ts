@@ -18,6 +18,8 @@ export class ExampleController {
 
     @Post()
     async createExample(@Body() command: Contracts.CreateExampleCommand) {
+        console.log(command)
+
         await this.exampleService.create(command);
     }
 

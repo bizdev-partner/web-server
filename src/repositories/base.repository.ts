@@ -27,7 +27,8 @@ export abstract class BaseRepository<T extends Entity> {
 
     async insert(entity: T) {
         entity.create();
-        this.update(entity);
+
+        await this.update(entity)
     }
 
     async update(entity: T): Promise<void> {

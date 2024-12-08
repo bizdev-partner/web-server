@@ -6,7 +6,13 @@ import {
   SubscribeMessage, WebSocketGateway, WebSocketServer
 } from '@nestjs/websockets';
 
-@WebSocketGateway({cors: { origin: '*' } })
+@WebSocketGateway({
+  cors: {
+    origin: ['http://localhost:8000'], // Adjust based on your front-end's origin
+    credentials: false,        
+  },
+  namespace: "/notifications",
+})
 export class NotificationGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   logger: Logger = new Logger("NotificationGateway");
   clients: ClientMap = NotificationService._clients;

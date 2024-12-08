@@ -7,7 +7,10 @@ dotenv.config();
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.setGlobalPrefix("/v1");
+  // app.setGlobalPrefix("");
+  app.enableCors({
+    origin: '*', // Allow all origins
+  });
   
   await app.listen(process.env.PORT ?? 3000);
 }

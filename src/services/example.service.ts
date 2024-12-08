@@ -32,9 +32,13 @@ export class ExampleService implements IExampleService {
             })
         });
 
-        await this.exampleRepository.insert(example);
-
-        return true;
+        try {
+            await this.exampleRepository.insert(example);
+            
+            return true;
+        } catch {
+            return false
+        }
     }
 
     async update(command: Contracts.UpdateExampleCommand): Promise<boolean> {

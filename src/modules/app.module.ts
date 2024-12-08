@@ -9,6 +9,8 @@ import { EventPublisherService } from 'src/services/eventPublisher.service';
 import { NotificationService } from 'src/services/notification.service';
 import { ExampleModule } from './example.module';
 import { ConfigModule } from '@nestjs/config';
+import { NotificationGateway } from 'src/gateways/notification.gateway';
+import { NotificationModule } from './notification.module';
 
 const appRoot = join(__dirname, '..', '..', '..')
 
@@ -22,12 +24,12 @@ const appRoot = join(__dirname, '..', '..', '..')
       dbName: process.env.MONGO_INITDB_DATABASE,
     }),
     EventEmitterModule.forRoot(),
+    NotificationModule,
     ExampleModule,
     EventHandlersModule
   ],
   controllers: [AppController],
   providers: [
-    NotificationService, 
     EventPublisherService
   ],
 })
