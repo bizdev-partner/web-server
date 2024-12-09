@@ -1,6 +1,6 @@
 import { Campaign } from "@domain/campaign/Campaign";
 import { CampaignActivity } from "@domain/campaign/CampaignActivity";
-import { MockCampaignRepository, MockCampaignService } from "./mocks/campaign.mocks";
+import { MockCampaignRepository, MockCampaignService } from "../mocks/campaign.mocks";
 import { GlobalIdentifier, UniqueIdentifier } from "@vannatta-software/ts-domain";
 import * as Contracts from "@domain/campaign/contracts";
 import { CampaignStatus } from "@domain/campaign/CampaignStatus";

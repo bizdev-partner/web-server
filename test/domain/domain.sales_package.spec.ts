@@ -2,7 +2,7 @@ import { SalesPackage } from "@domain/sales_package/SalesPackage";
 import { Note } from "@domain/common/Note";
 import { GlobalIdentifier, UniqueIdentifier } from "@vannatta-software/ts-domain";
 import * as Contracts from "@domain/sales_package/contracts";
-import { MockSalesPackageRepository, MockSalesPackageService } from "./mocks/sales_package.mocks";
+import { MockSalesPackageRepository, MockSalesPackageService } from "../mocks/sales_package.mocks";
 import { Pricing } from "@domain/sales_package/Pricing";
 import { Validity } from "@domain/sales_package/Validity";
 

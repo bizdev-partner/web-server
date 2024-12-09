@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { MongoSchema, extractRelevantSchema } from 'src/schemas/mongo.schema';
-import { Campaign } from '../domain/campaign/Campaign';
+import { Campaign } from '@domain/campaign/Campaign';
 
 describe('MongoSchema for Campaign', () => {
     it('should generate a valid Mongoose schema for the Campaign class', () => {

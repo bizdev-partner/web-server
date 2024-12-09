@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { MongoSchema, extractRelevantSchema } from 'src/schemas/mongo.schema';
-import { Workflow } from '../domain/workflow/Workflow';
+import { Workflow } from '@domain/workflow/Workflow';
 
 describe('MongoSchema for Workflow', () => {
     it('should generate a valid Mongoose schema for the Workflow class', () => {

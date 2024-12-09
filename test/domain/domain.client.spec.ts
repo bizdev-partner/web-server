@@ -1,5 +1,5 @@
 import { Client } from "@domain/client/Client";
-import { MockClientRepository, MockClientService } from "./mocks/client.mocks";
+import { MockClientRepository, MockClientService } from "../mocks/client.mocks";
 import { GlobalIdentifier, UniqueIdentifier } from "@vannatta-software/ts-domain";
 import { Note } from "@domain/common/Note";
 import { ContactInfo } from "@domain/common/ContactInfo";

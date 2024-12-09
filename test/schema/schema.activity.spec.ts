@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { MongoSchema, extractRelevantSchema } from 'src/schemas/mongo.schema';
-import { Activity } from '../domain/activity/Activity';
+import { Activity } from '@domain/activity/Activity';
 
 describe('MongoSchema for Activity', () => {
     it('should generate a valid Mongoose schema for the Activity class', () => {

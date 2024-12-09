@@ -5,7 +5,7 @@ import { ContactInfo } from "@domain/common/ContactInfo";
 import { Note } from "@domain/common/Note";
 import { GlobalIdentifier } from "@vannatta-software/ts-domain";
 import * as Contracts from "@domain/lead/contracts";
-import { MockLeadRepository, MockLeadService } from "./mocks/lead.mocks";
+import { MockLeadRepository, MockLeadService } from "../mocks/lead.mocks";
 
 describe("Lead Domain Tests", () => {
     let repository: MockLeadRepository;

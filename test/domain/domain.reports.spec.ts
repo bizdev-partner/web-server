@@ -2,7 +2,7 @@ import { Report } from "@domain/report/Report";
 import { ReportType, ReportStatus, ReportFormat } from "@domain/report/ReportType";
 import * as Contracts from "@domain/report/contracts";
 import { GlobalIdentifier, UniqueIdentifier } from "@vannatta-software/ts-domain";
-import { MockReportRepository, MockReportService } from "./mocks/report.mocks";
+import { MockReportRepository, MockReportService } from "../mocks/report.mocks";
 import { EnumUtils } from "@domain/common/EnumUtils";
 import { TimeRange } from "@domain/report/TimeRange";
 

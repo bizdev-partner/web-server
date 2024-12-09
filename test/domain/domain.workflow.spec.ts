@@ -3,7 +3,7 @@ import { WorkflowActivity } from "@domain/workflow/WorkflowActivity";
 import { WorkflowStatus } from "@domain/workflow/WorkflowStatus";
 import * as Contracts from "@domain/workflow/contracts";
 import { GlobalIdentifier, UniqueIdentifier } from "@vannatta-software/ts-domain";
-import { MockWorkflowRepository, MockWorkflowService } from "./mocks/workflow.mocks";
+import { MockWorkflowRepository, MockWorkflowService } from "../mocks/workflow.mocks";
 import { ActivityType } from "@domain/activity";
 
 describe("Workflow Domain", () => {

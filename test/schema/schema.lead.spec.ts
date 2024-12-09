@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { MongoSchema, extractRelevantSchema } from 'src/schemas/mongo.schema';
-import { Lead } from '../domain/lead/Lead';
+import { Lead } from '@domain/lead/Lead';
 
 describe('MongoSchema for Lead', () => {
     it('should generate a valid Mongoose schema for the Lead class', () => {

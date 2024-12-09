@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { MongoSchema, extractRelevantSchema } from 'src/schemas/mongo.schema';
-import { Report } from '../domain/report/Report';
+import { Report } from '@domain/report/Report';
 
 describe('MongoSchema for Report', () => {
     it('should generate a valid Mongoose schema for the Report class', () => {

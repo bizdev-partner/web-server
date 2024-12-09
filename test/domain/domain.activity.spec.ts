@@ -3,7 +3,7 @@ import { ActivityOutcome } from "@domain/activity/ActivityOutcome";
 import { ActivityStatus, ActivityType, PriorityType } from "@domain/activity/ActivityTypes";
 import * as Contracts from "@domain/activity/contracts";
 import { GlobalIdentifier, UniqueIdentifier } from "@vannatta-software/ts-domain";
-import { MockActivityRepository, MockActivityService } from "./mocks/activity.mocks";
+import { MockActivityRepository, MockActivityService } from "../mocks/activity.mocks";
 
 describe("Activity Domain", () => {
     let activityService: MockActivityService;
