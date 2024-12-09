@@ -10,49 +10,49 @@ export interface IWorkflowService {
      * @param command The command containing the details to create a workflow.
      * @returns The created workflow.
      */
-    createWorkflow(command: Contracts.CreateWorkflowCommand): Promise<Workflow>;
+    createWorkflow(command: Contracts.ICreateWorkflowCommand): Promise<Workflow>;
 
     /**
      * Updates an existing workflow with the provided data.
      * @param command The command containing the workflow ID and updated fields.
      * @returns The updated workflow.
      */
-    updateWorkflow(command: Contracts.UpdateWorkflowCommand): Promise<Workflow>;
+    updateWorkflow(command: Contracts.IUpdateWorkflowCommand): Promise<Workflow>;
 
     /**
      * Activates a workflow, transitioning it to the active state.
      * @param command The command containing the workflow ID to activate.
      * @returns The updated workflow.
      */
-    activateWorkflow(command: Contracts.ActivateWorkflowCommand): Promise<Workflow>;
+    activateWorkflow(command: Contracts.IActivateWorkflowCommand): Promise<Workflow>;
 
     /**
      * Pauses an active workflow.
      * @param command The command containing the workflow ID to pause.
      * @returns The updated workflow.
      */
-    pauseWorkflow(command: Contracts.PauseWorkflowCommand): Promise<Workflow>;
+    pauseWorkflow(command: Contracts.IPauseWorkflowCommand): Promise<Workflow>;
 
     /**
      * Archives a workflow, removing it from active use.
      * @param command The command containing the workflow ID to archive.
      * @returns The updated workflow.
      */
-    archiveWorkflow(command: Contracts.ArchiveWorkflowCommand): Promise<Workflow>;
+    archiveWorkflow(command: Contracts.IArchiveWorkflowCommand): Promise<Workflow>;
 
     /**
      * Retrieves the details of a specific workflow by its ID.
      * @param query The query containing the workflow ID.
      * @returns The workflow with its details.
      */
-    getWorkflowDetails(query: Contracts.GetWorkflowDetailsQuery): Promise<Workflow>;
+    getWorkflowDetails(query: Contracts.IGetWorkflowDetailsQuery): Promise<Workflow>;
 
     /**
      * Retrieves a list of workflows based on the provided query.
      * @param query The query for listing workflows.
      * @returns An array of workflows matching the criteria.
      */
-    listWorkflows(query: Contracts.ListWorkflowsQuery): Promise<Workflow[]>;
+    listWorkflows(query: Contracts.IListWorkflowsQuery): Promise<Workflow[]>;
 
     /**
      * Retrieves all activities within a specific workflow.
@@ -66,5 +66,5 @@ export interface IWorkflowService {
      * @param command The command containing the workflow ID and the updated activities.
      * @returns The updated workflow.
      */
-    updateWorkflowActivities(command: Contracts.UpdateWorkflowActivitiesCommand): Promise<Workflow>;
+    updateWorkflowActivities(command: Contracts.IUpdateWorkflowActivitiesCommand): Promise<Workflow>;
 }

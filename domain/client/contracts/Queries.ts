@@ -27,3 +27,11 @@ export class GetClientCampaignsQuery extends Model {
     @Validation({ required: true })
     public clientId: string;
 }
+
+export type IGetClientDetailsQuery = Pick<GetClientDetailsQuery, "clientId">;
+
+export type IListClientsQuery = Pick<ListClientsQuery, "status" | "filter">;
+
+export type IGetClientSalesPackagesQuery = Pick<GetClientSalesPackagesQuery, "clientId">;
+
+export type IGetClientCampaignsQuery = Pick<GetClientCampaignsQuery, "clientId">;

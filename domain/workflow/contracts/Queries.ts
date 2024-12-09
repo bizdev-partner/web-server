@@ -16,3 +16,7 @@ export class ListWorkflowsQuery extends Model {
     status?: string;
     // No additional properties required for now.
 }
+
+export type IGetWorkflowDetailsQuery = Pick<GetWorkflowDetailsQuery, "workflowId">;
+
+export type IListWorkflowsQuery = Pick<ListWorkflowsQuery, "status">;

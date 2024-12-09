@@ -12,6 +12,11 @@ export class GetActivityDetailsQuery extends Model {
     }
 }
 
+export type IGetActivityDetailsQuery = Pick<
+    GetActivityDetailsQuery,
+    "activityId"
+>;
+
 export class ListActivitiesForLeadQuery extends Model {
     @Field("Lead ID", FieldType.Text)
     @Validation({ required: true })
@@ -23,6 +28,11 @@ export class ListActivitiesForLeadQuery extends Model {
     }
 }
 
+export type IListActivitiesForLeadQuery = Pick<
+    ListActivitiesForLeadQuery,
+    "leadId"
+>;
+
 export class ListActivitiesByStatusQuery extends Model {
     @Field("Status", FieldType.Text)
     @Validation({ required: true })
@@ -33,6 +43,14 @@ export class ListActivitiesByStatusQuery extends Model {
         this.status = status;
     }
 }
+
+export type IListActivitiesByStatusQuery = Pick<
+    ListActivitiesByStatusQuery,
+    "status"
+>;
+
 export class ListActivityTemplatesQuery {
     // No additional properties required, this query is for retrieving predefined templates.
 }
+
+export type IListActivityTemplatesQuery = {}; // An empty object type since there are no properties.

@@ -25,11 +25,11 @@ export class MockLeadRepository implements ILeadRepository {
 export class MockLeadService implements ILeadService {
     private repository: ILeadRepository;
 
-    constructor(repository: ILeadRepository) {
+    constructor(repository: ILeadRepository = new MockLeadRepository()) {
         this.repository = repository;
     }
 
-    async createLead(command: Contracts.CreateLeadCommand): Promise<Lead> {
+    async createLead(command: Contracts.ICreateLeadCommand): Promise<Lead> {
         const lead = new Lead({
             name: new Name({ firstName: command.firstName, lastName: command.lastName }),
             contactInfo: new ContactInfo({ email: command.email, phone: command.phone }),
@@ -42,7 +42,7 @@ export class MockLeadService implements ILeadService {
         return lead;
     }
 
-    async updateLead(command: Contracts.UpdateLeadCommand): Promise<Lead> {
+    async updateLead(command: Contracts.IUpdateLeadCommand): Promise<Lead> {
         const lead = await this.repository.findById(new GlobalIdentifier(command.leadId));
         if (!lead) {
             throw new Error(`Lead with ID ${command.leadId} not found.`);
@@ -78,7 +78,7 @@ export class MockLeadService implements ILeadService {
         return lead;
     }
 
-    async updateLeadStatus(command: Contracts.UpdateLeadStatusCommand): Promise<Lead> {
+    async updateLeadStatus(command: Contracts.IUpdateLeadStatusCommand): Promise<Lead> {
         const lead = await this.repository.findById(new GlobalIdentifier(command.leadId));
         if (!lead) {
             throw new Error(`Lead with ID ${command.leadId} not found.`);
@@ -95,7 +95,7 @@ export class MockLeadService implements ILeadService {
         return this.repository.findByStatus(leadStatus);
     }
 
-    async getLeadDetails(query: Contracts.GetLeadDetailsQuery): Promise<Lead> {
+    async getLeadDetails(query: Contracts.IGetLeadDetailsQuery): Promise<Lead> {
         const lead = await this.repository.findById(new GlobalIdentifier(query.leadId));
         if (!lead) {
             throw new Error(`Lead with ID ${query.leadId} not found.`);
@@ -104,7 +104,7 @@ export class MockLeadService implements ILeadService {
         return lead;
     }
 
-    async listLeads(query: Contracts.ListLeadsQuery): Promise<Lead[]> {
+    async listLeads(query: Contracts.IListLeadsQuery): Promise<Lead[]> {
         const allLeads = await this.repository.findByStatus(LeadStatus.Known);
         let filteredLeads = allLeads;
 

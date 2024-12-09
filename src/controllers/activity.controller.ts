@@ -8,49 +8,42 @@ export class ActivityController {
 
     @Get('templates')
     async getActivityTemplates() {
-        const query = new Contracts.ListActivityTemplatesQuery();
-        return this.activityService.getActivityTemplates(query);
+        return this.activityService.getActivityTemplates({});
     }
 
     @Get(':id')
     async getActivityDetails(@Param('id') id: string) {
-        const query = new Contracts.GetActivityDetailsQuery(id);
-        return this.activityService.getActivityDetails(query);
+        return this.activityService.getActivityDetails({ activityId: id });
     }
 
     @Get('/lead/:leadId')
     async getActivitiesForLead(@Param('leadId') leadId: string) {
-        const query = new Contracts.ListActivitiesForLeadQuery(leadId);
-        return this.activityService.getActivitiesForLead(query);
+        return this.activityService.getActivitiesForLead({ leadId: leadId });
     }
 
     @Post()
-    async scheduleActivity(@Body() command: Contracts.ScheduleActivityCommand) {
+    async scheduleActivity(@Body() command: Contracts.IScheduleActivityCommand) {
         return this.activityService.scheduleActivity(command);
     }
 
     @Patch(':id/complete')
     async completeActivity(
         @Param('id') id: string,
-        @Body() command: Contracts.CompleteActivityCommand
+        @Body() command: Omit<Contracts.ICompleteActivityCommand, 'activityId'>,
     ) {
-        command.activityId = id;
-        return this.activityService.completeActivity(command);
+        return this.activityService.completeActivity({ ...command, activityId: id });
     }
 
     @Patch(':id/reschedule')
     async rescheduleActivity(
         @Param('id') id: string,
-        @Body() command: Contracts.RescheduleActivityCommand
+        @Body() command: Omit<Contracts.IRescheduleActivityCommand, 'activityId'>,
     ) {
-        command.activityId = id;
-        return this.activityService.rescheduleActivity(command);
+        return this.activityService.rescheduleActivity({ ...command, activityId: id });
     }
 
     @Delete(':id')
     async cancelActivity(@Param('id') id: string) {
-        const command = new Contracts.CancelActivityCommand();
-        command.activityId = id;
-        return this.activityService.cancelActivity(command);
+        return this.activityService.cancelActivity({ activityId: id });
     }
 }

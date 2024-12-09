@@ -1,10 +1,9 @@
 import { Report } from "@domain/report/Report";
-import { ReportType, ReportStatus, ReportFormat } from "@domain/report/ReportType";
-import * as Contracts from "@domain/report/contracts";
-import { GlobalIdentifier, UniqueIdentifier } from "@vannatta-software/ts-domain";
-import { MockReportRepository, MockReportService } from "../mocks/report.mocks";
-import { EnumUtils } from "@domain/common/EnumUtils";
+import { ReportFormat, ReportStatus, ReportType } from "@domain/report/ReportType";
 import { TimeRange } from "@domain/report/TimeRange";
+import * as Contracts from "@domain/report/contracts";
+import { UniqueIdentifier } from "@vannatta-software/ts-domain";
+import { MockReportRepository, MockReportService } from "../mocks/report.mocks";
 
 describe("Report Domain", () => {
     let reportService: MockReportService;
@@ -16,13 +15,14 @@ describe("Report Domain", () => {
     });
 
     it("should create and save a new report", async () => {
-        const command = new Contracts.CreateReportCommand();
-        command.title = "Activity Summary Report";
-        command.description = "A summary of all activities.";
-        command.type = ReportType.ActivitySummary;
-        command.format = ReportFormat.PDF;
-        command.requestedBy = "user-1";
-        command.parameters = new TimeRange({ startDate: new Date(), endDate: new Date() });
+        const command: Contracts.ICreateReportCommand = {
+            title: "Activity Summary Report",
+            description: "A summary of all activities.",
+            type: ReportType.ActivitySummary,
+            format: ReportFormat.PDF,
+            requestedBy: "user-1",
+            parameters: new TimeRange({ startDate: new Date(), endDate: new Date() }),
+        };
 
         const report = await reportService.createReport(command);
         const savedReport = await mockRepository.findById(report.id);
@@ -115,11 +115,7 @@ describe("Report Domain", () => {
 
         await mockRepository.save(report);
 
-        const query = new Contracts.GetReportDetailsQuery();
-
-        query.reportId = report.id.value;
-
-        const reportDetails = await reportService.getReportDetails(query);
+        const reportDetails = await reportService.getReportDetails({ reportId: report.id.value });
 
         expect(reportDetails).toBeDefined();
         expect(reportDetails.title).toEqual("Detailed Report");
@@ -138,8 +134,7 @@ describe("Report Domain", () => {
             await mockRepository.save(report);
         }
 
-        const query = new Contracts.ListReportsQuery();
-        query.filter = { type: ReportType.ActivitySummary.name, status: ReportStatus.Pending.name };
+        const query: Contracts.IListReportsQuery = { filter: { type: ReportType.ActivitySummary.name, status: ReportStatus.Pending.name } };
 
         const filteredReports = await reportService.listReports(query);
 
@@ -148,3 +143,4 @@ describe("Report Domain", () => {
         expect(filteredReports[0].status).toEqual(ReportStatus.Pending);
     });
 });
+

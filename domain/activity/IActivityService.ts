@@ -7,28 +7,28 @@ export interface IActivityService {
      * @param command The command containing details to schedule an activity.
      * @returns The scheduled activity.
      */
-    scheduleActivity(command: Contracts.ScheduleActivityCommand): Promise<Activity>;
+    scheduleActivity(command: Contracts.IScheduleActivityCommand): Promise<Activity>;
 
     /**
      * Marks an activity as completed and triggers relevant events.
      * @param command The command containing details to complete an activity.
      * @returns The updated activity.
      */
-    completeActivity(command: Contracts.CompleteActivityCommand): Promise<Activity>;
+    completeActivity(command: Contracts.ICompleteActivityCommand): Promise<Activity>;
 
     /**
      * Cancels an activity and performs any related cleanup.
      * @param command The command containing details to cancel an activity.
      * @returns The updated activity.
      */
-    cancelActivity(command: Contracts.CancelActivityCommand): Promise<Activity>;
+    cancelActivity(command: Contracts.ICancelActivityCommand): Promise<Activity>;
 
     /**
      * Updates an activity's schedule and propagates changes as needed.
      * @param command The command containing details to reschedule an activity.
      * @returns The updated activity.
      */
-    rescheduleActivity(command: Contracts.RescheduleActivityCommand): Promise<Activity>;
+    rescheduleActivity(command: Contracts.IRescheduleActivityCommand): Promise<Activity>;
 
     /**
      * Retrieves all activities for a given lead.

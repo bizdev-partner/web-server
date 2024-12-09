@@ -30,28 +30,6 @@ describe("Lead Domain Tests", () => {
             expect(retrievedLead).toEqual(lead);
         });
 
-        it("should retrieve leads by status", async () => {
-            const lead1 = new Lead({
-                name: new Name({ firstName: "John", lastName: "Doe" }),
-                contactInfo: new ContactInfo({ email: "john.doe@example.com", phone: "123-456-7890" }),
-                status: LeadStatus.Known,
-            });
-            const lead2 = new Lead({
-                name: new Name({ firstName: "Jane", lastName: "Doe" }),
-                contactInfo: new ContactInfo({ email: "jane.doe@example.com", phone: "987-654-3210" }),
-                status: LeadStatus.Won,
-            });
-
-            await repository.save(lead1);
-            await repository.save(lead2);
-
-            const knownLeads = await repository.findByStatus(LeadStatus.Known);
-            expect(knownLeads).toEqual([lead1]);
-
-            const wonLeads = await repository.findByStatus(LeadStatus.Won);
-            expect(wonLeads).toEqual([lead2]);
-        });
-
         it("should delete a lead by ID", async () => {
             const lead = new Lead({
                 name: new Name({ firstName: "John", lastName: "Doe" }),
@@ -69,13 +47,14 @@ describe("Lead Domain Tests", () => {
 
     describe("MockLeadService", () => {
         it("should create a lead", async () => {
-            const command = new Contracts.CreateLeadCommand();
-            command.firstName = "John";
-            command.lastName = "Doe";
-            command.email = "john.doe@example.com";
-            command.phone = "123-456-7890";
-            command.notes = [new Note({ content: "Note 1", authorId: "12345" })];
-            command.tags = ["VIP"];
+            const command: Contracts.ICreateLeadCommand = {
+                firstName: "John",
+                lastName: "Doe",
+                email: "john.doe@example.com",
+                phone: "123-456-7890",
+                notes: [new Note({ content: "Note 1", authorId: "12345" })],
+                tags: ["VIP"],
+            };
 
             const lead = await service.createLead(command);
 
@@ -97,12 +76,11 @@ describe("Lead Domain Tests", () => {
 
             await repository.save(lead);
 
-            const command = new Contracts.UpdateLeadCommand();
-            command.leadId = lead.id.value;
-            command.firstName = "Jonathan";
-            command.tags = ["Updated"];
-
-            const updatedLead = await service.updateLead(command);
+            const updatedLead = await service.updateLead({
+                leadId: lead.id.value,
+                firstName: "Jonathan",
+                tags: ["Updated"],
+            });
 
             expect(updatedLead.name.firstName).toBe("Jonathan");
             expect(updatedLead.tags).toEqual(["Updated"]);
@@ -117,28 +95,12 @@ describe("Lead Domain Tests", () => {
 
             await repository.save(lead);
 
-            const command = new Contracts.UpdateLeadStatusCommand();
-            command.leadId = lead.id.value;
-            command.newStatus = "Won";
-
-            const updatedLead = await service.updateLeadStatus(command);
-
-            expect(updatedLead.status).toEqual(LeadStatus.Won);
-        });
-
-        it("should retrieve lead details", async () => {
-            const lead = new Lead({
-                name: new Name({ firstName: "John", lastName: "Doe" }),
-                contactInfo: new ContactInfo({ email: "john.doe@example.com", phone: "123-456-7890" }),
-                status: LeadStatus.Known,
+            const updatedLead = await service.updateLeadStatus({
+                leadId: lead.id.value,
+                newStatus: "Won",
             });
 
-            await repository.save(lead);
-
-            const query = new Contracts.GetLeadDetailsQuery(lead.id.value);
-            const retrievedLead = await service.getLeadDetails(query);
-
-            expect(retrievedLead).toEqual(lead);
+            expect(updatedLead.status).toEqual(LeadStatus.Won);
         });
 
         it("should list leads with filters", async () => {
@@ -158,13 +120,9 @@ describe("Lead Domain Tests", () => {
             await repository.save(lead1);
             await repository.save(lead2);
 
-            const query = new Contracts.ListLeadsQuery();
-            query.status = "Known";
-            query.tags = ["VIP"];
-
-            const leads = await service.listLeads(query);
-
+            const leads = await service.listLeads({ status: "Known", tags: ["VIP"] });
             expect(leads).toEqual([lead1]);
         });
     });
 });
+

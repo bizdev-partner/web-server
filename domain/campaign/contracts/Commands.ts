@@ -56,3 +56,14 @@ export class CompleteCampaignCommand extends Model {
         this.failedOutcomes = failedOutcomes;
     }
 }
+
+export type ILaunchCampaignCommand = Pick<LaunchCampaignCommand, "campaignId">;
+
+export type IPauseCampaignCommand = Pick<PauseCampaignCommand, "campaignId">;
+
+export type IResumeCampaignCommand = Pick<ResumeCampaignCommand, "campaignId">;
+
+export type ICompleteCampaignCommand = Pick<
+    CompleteCampaignCommand,
+    "campaignId" | "successfulOutcomes" | "failedOutcomes"
+>;

@@ -74,3 +74,20 @@ export class AddFeedbackCommand extends Model {
     @Field("Tags", FieldType.Text)
     public tags?: string[];
 }
+
+export type ICreatePackageCommand = Pick<
+    CreatePackageCommand,
+    "name" | "workflowId" | "leads" | "basePrice" | "discount" | "startDate" | "endDate"
+>;
+
+export type IDeletePackageCommand = Pick<DeletePackageCommand, "packageId">;
+
+export type IUpdatePackageCommand = Pick<
+    UpdatePackageCommand,
+    "packageId" | "updatedFields"
+>;
+
+export type IAddFeedbackCommand = Pick<
+    AddFeedbackCommand,
+    "packageId" | "content" | "authorId" | "tags"
+>;

@@ -23,6 +23,11 @@ export class ScheduleActivityCommand extends Model {
     public priority: string;
 }
 
+export type IScheduleActivityCommand = Pick<
+    ScheduleActivityCommand,
+    "type" | "scheduledDate" | "leadId" | "notes" | "priority"
+>;
+
 export class CompleteActivityCommand extends Model {
     @Field("Activity ID", FieldType.Text)
     @Validation({ required: true })
@@ -41,6 +46,11 @@ export class CompleteActivityCommand extends Model {
     public completionDate: Date;
 }
 
+export type ICompleteActivityCommand = Pick<
+    CompleteActivityCommand,
+    "activityId" | "outcome" | "success" | "completionDate"
+>;
+
 export class RescheduleActivityCommand extends Model {
     @Field("Activity ID", FieldType.Text)
     @Validation({ required: true })
@@ -51,8 +61,18 @@ export class RescheduleActivityCommand extends Model {
     public newScheduledDate: Date;
 }
 
+export type IRescheduleActivityCommand = Pick<
+    RescheduleActivityCommand,
+    "activityId" | "newScheduledDate"
+>;
+
 export class CancelActivityCommand extends Model {
     @Field("Activity ID", FieldType.Text)
     @Validation({ required: true })
     public activityId: string;
 }
+
+export type ICancelActivityCommand = Pick<
+    CancelActivityCommand,
+    "activityId"
+>;

@@ -15,7 +15,6 @@ export class UpdateWorkflowActivitiesCommand extends Model {
     }
 }
 
-
 export class CreateWorkflowCommand extends Model {
     @Field("Workflow Name", FieldType.Text)
     @Validation({ required: true })
@@ -64,3 +63,21 @@ export class ArchiveWorkflowCommand extends Model {
     @Validation({ required: true })
     public workflowId: string;
 }
+
+export type ICreateWorkflowCommand = Pick<
+    CreateWorkflowCommand,
+    "name" | "description" | "ownerId" | "category" | "status" | "activities"
+>;
+
+export type IUpdateWorkflowCommand = Pick<UpdateWorkflowCommand, "workflowId" | "updatedFields">;
+
+export type IActivateWorkflowCommand = Pick<ActivateWorkflowCommand, "workflowId">;
+
+export type IPauseWorkflowCommand = Pick<PauseWorkflowCommand, "workflowId">;
+
+export type IArchiveWorkflowCommand = Pick<ArchiveWorkflowCommand, "workflowId">;
+
+export type IUpdateWorkflowActivitiesCommand = Pick<
+    UpdateWorkflowActivitiesCommand,
+    "workflowId" | "activities"
+>;

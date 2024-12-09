@@ -38,11 +38,11 @@ export class MockCampaignRepository implements ICampaignRepository {
 export class MockCampaignService implements ICampaignService {
     private repository: ICampaignRepository;
 
-    constructor(repository: ICampaignRepository) {
+    constructor(repository: ICampaignRepository = new MockCampaignRepository()) {
         this.repository = repository;
     }
 
-    async launchCampaign(command: Contracts.LaunchCampaignCommand): Promise<Campaign> {
+    async launchCampaign(command: Contracts.ILaunchCampaignCommand): Promise<Campaign> {
         const campaign = await this.repository.findById(new GlobalIdentifier(command.campaignId));
         if (!campaign) {
             throw new Error(`Campaign with ID ${command.campaignId} not found.`);
@@ -54,7 +54,7 @@ export class MockCampaignService implements ICampaignService {
         return campaign;
     }
 
-    async pauseCampaign(command: Contracts.PauseCampaignCommand): Promise<Campaign> {
+    async pauseCampaign(command: Contracts.IPauseCampaignCommand): Promise<Campaign> {
         const campaign = await this.repository.findById(new GlobalIdentifier(command.campaignId));
         if (!campaign) {
             throw new Error(`Campaign with ID ${command.campaignId} not found.`);
@@ -66,7 +66,7 @@ export class MockCampaignService implements ICampaignService {
         return campaign;
     }
 
-    async resumeCampaign(command: Contracts.ResumeCampaignCommand): Promise<Campaign> {
+    async resumeCampaign(command: Contracts.IResumeCampaignCommand): Promise<Campaign> {
         const campaign = await this.repository.findById(new GlobalIdentifier(command.campaignId));
         if (!campaign) {
             throw new Error(`Campaign with ID ${command.campaignId} not found.`);
@@ -78,7 +78,7 @@ export class MockCampaignService implements ICampaignService {
         return campaign;
     }
 
-    async completeCampaign(command: Contracts.CompleteCampaignCommand): Promise<Campaign> {
+    async completeCampaign(command: Contracts.ICompleteCampaignCommand): Promise<Campaign> {
         const campaign = await this.repository.findById(new GlobalIdentifier(command.campaignId));
         if (!campaign) {
             throw new Error(`Campaign with ID ${command.campaignId} not found.`);
@@ -116,7 +116,7 @@ export class MockCampaignService implements ICampaignService {
         return campaignActivity;
     }    
 
-    async getCampaignDetails(query: Contracts.GetCampaignDetailsQuery): Promise<Campaign> {
+    async getCampaignDetails(query: Contracts.IGetCampaignDetailsQuery): Promise<Campaign> {
         const campaign = await this.repository.findById(new GlobalIdentifier(query.campaignId));
         if (!campaign) {
             throw new Error(`Campaign with ID ${query.campaignId} not found.`);
@@ -125,7 +125,7 @@ export class MockCampaignService implements ICampaignService {
         return campaign;
     }
 
-    async listCampaigns(query: Contracts.ListCampaignsQuery): Promise<Campaign[]> {
+    async listCampaigns(query: Contracts.IListCampaignsQuery): Promise<Campaign[]> {
         return this.repository.findByStatus(query.status || "");
     }
 }

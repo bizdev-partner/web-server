@@ -8,37 +8,27 @@ export class LeadController {
 
     @Get(':id')
     async getLeadDetails(@Param('id') id: string) {
-        const query = new Contracts.GetLeadDetailsQuery(id);
-        query.leadId = id;
-        return this.leadService.getLeadDetails(query);
+        return this.leadService.getLeadDetails({ leadId: id });
     }
 
     @Get()
-    async listLeads(@Body() query: Contracts.ListLeadsQuery) {
+    async listLeads(@Body() query: Contracts.IListLeadsQuery) {
         return this.leadService.listLeads(query);
     }
 
     @Post()
-    async createLead(@Body() command: Contracts.CreateLeadCommand) {
+    async createLead(@Body() command: Contracts.ICreateLeadCommand) {
         return this.leadService.createLead(command);
     }
 
     @Patch(':id')
-    async updateLead(
-        @Param('id') id: string,
-        @Body() command: Contracts.UpdateLeadCommand
-    ) {
-        command.leadId = id;
-        return this.leadService.updateLead(command);
+    async updateLead(@Param('id') id: string, @Body() command: Contracts.IUpdateLeadCommand) {
+        return this.leadService.updateLead({ ...command, leadId: id });
     }
 
     @Patch(':id/status')
-    async updateLeadStatus(
-        @Param('id') id: string,
-        @Body() command: Contracts.UpdateLeadStatusCommand
-    ) {
-        command.leadId = id;
-        return this.leadService.updateLeadStatus(command);
+    async updateLeadStatus(@Param('id') id: string, @Body() command: Contracts.IUpdateLeadStatusCommand) {
+        return this.leadService.updateLeadStatus({ ...command, leadId: id });
     }
 
     @Delete(':id')

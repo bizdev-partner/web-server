@@ -60,3 +60,18 @@ export class UpdateLeadStatusCommand extends Model {
     @Validation({ required: true })
     public newStatus: string;
 }
+
+export type ICreateLeadCommand = Pick<
+    CreateLeadCommand,
+    "firstName" | "lastName" | "email" | "phone" | "notes" | "tags"
+>;
+
+export type IUpdateLeadCommand = Pick<
+    UpdateLeadCommand,
+    "leadId" | "firstName" | "lastName" | "email" | "phone" | "notes" | "tags" | "status"
+>;
+
+export type IUpdateLeadStatusCommand = Pick<
+    UpdateLeadStatusCommand,
+    "leadId" | "newStatus"
+>;

@@ -21,3 +21,7 @@ export class ListPackagesQuery extends Model {
         this.filter = filter;
     }
 }
+
+export type IGetPackageDetailsQuery = Pick<GetPackageDetailsQuery, "packageId">;
+
+export type IListPackagesQuery = Pick<ListPackagesQuery, "filter">;

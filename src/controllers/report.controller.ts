@@ -7,15 +7,13 @@ export class ReportController {
     constructor(private readonly reportService: ReportService) {}
 
     @Post()
-    async createReport(@Body() command: Contracts.CreateReportCommand) {
+    async createReport(@Body() command: Contracts.ICreateReportCommand) {
         return this.reportService.createReport(command);
     }
 
     @Delete(':id')
     async deleteReport(@Param('id') id: string) {
-        const command = new Contracts.DeleteReportCommand();
-        command.reportId = id;
-        return this.reportService.deleteReport(command);
+        return this.reportService.deleteReport({ reportId: id });
     }
 
     @Patch(':id/mark-in-progress')
@@ -24,18 +22,12 @@ export class ReportController {
     }
 
     @Patch(':id/complete')
-    async completeReport(
-        @Param('id') id: string,
-        @Body('data') data: Record<string, any>
-    ) {
+    async completeReport(@Param('id') id: string, @Body('data') data: Record<string, any>) {
         return this.reportService.completeReport(id, data);
     }
 
     @Patch(':id/fail')
-    async failReport(
-        @Param('id') id: string,
-        @Body('reason') reason: string
-    ) {
+    async failReport(@Param('id') id: string, @Body('reason') reason: string) {
         return this.reportService.failReport(id, reason);
     }
 
@@ -46,15 +38,11 @@ export class ReportController {
 
     @Get(':id')
     async getReportDetails(@Param('id') id: string) {
-        const query = new Contracts.GetReportDetailsQuery();
-
-        query.reportId = id;
-
-        return this.reportService.getReportDetails(query);
+        return this.reportService.getReportDetails({ reportId: id });
     }
 
     @Get()
-    async listReports(@Query() query: Contracts.ListReportsQuery) {
+    async listReports(@Query() query: Contracts.IListReportsQuery) {
         return this.reportService.listReports(query);
     }
 }

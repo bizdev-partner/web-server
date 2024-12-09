@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { SalesPackageService } from '../services/sales_package.service';
 import * as Contracts from '@domain/sales_package/contracts';
-import { SalesPackageService } from 'src/services/sales_package.service';
 
 @Controller('sales-packages')
 export class SalesPackageController {
@@ -8,41 +8,34 @@ export class SalesPackageController {
 
     @Get(':id')
     async getPackageDetails(@Param('id') id: string) {
-        const query = new Contracts.GetPackageDetailsQuery(id);
-        return this.salesPackageService.getPackageDetails(query);
+        return this.salesPackageService.getPackageDetails({ packageId: id });
     }
 
     @Get()
-    async listPackages(@Body() query: Contracts.ListPackagesQuery) {
+    async listPackages(@Body() query: Contracts.IListPackagesQuery) {
         return this.salesPackageService.listPackages(query);
     }
 
     @Post()
-    async createPackage(@Body() command: Contracts.CreatePackageCommand) {
+    async createPackage(@Body() command: Contracts.ICreatePackageCommand) {
         return this.salesPackageService.createPackage(command);
     }
 
     @Patch(':id')
     async updatePackage(
         @Param('id') id: string,
-        @Body() command: Contracts.UpdatePackageCommand
+        @Body() command: Contracts.IUpdatePackageCommand
     ) {
-        command.packageId = id;
-        return this.salesPackageService.updatePackage(command);
+        return this.salesPackageService.updatePackage({ ...command, packageId: id });
     }
 
     @Patch(':id/feedback')
-    async addFeedback(
-        @Param('id') id: string,
-        @Body() command: Contracts.AddFeedbackCommand
-    ) {
-        command.packageId = id;
-        return this.salesPackageService.addFeedback(command);
+    async addFeedback(@Param('id') id: string, @Body() command: Contracts.IAddFeedbackCommand) {
+        return this.salesPackageService.addFeedback({ ...command, packageId: id });
     }
 
     @Delete(':id')
     async deletePackage(@Param('id') id: string) {
-        const command = new Contracts.DeletePackageCommand(id);
-        return this.salesPackageService.deletePackage(command);
+        return this.salesPackageService.deletePackage({ packageId: id });
     }
 }

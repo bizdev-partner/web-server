@@ -7,14 +7,14 @@ export interface IReportService {
      * @param command The command containing the details to create a report.
      * @returns The created report.
      */
-    createReport(command: Contracts.CreateReportCommand): Promise<Report>;
+    createReport(command: Contracts.ICreateReportCommand): Promise<Report>;
 
     /**
      * Deletes a report and triggers necessary domain events.
      * @param command The command containing the report ID to delete.
      * @returns A promise resolving when the report is deleted.
      */
-    deleteReport(command: Contracts.DeleteReportCommand): Promise<void>;
+    deleteReport(command: Contracts.IDeleteReportCommand): Promise<void>;
 
     /**
      * Marks a report as in-progress.
@@ -51,12 +51,12 @@ export interface IReportService {
      * @param query The query containing the report ID.
      * @returns The detailed report.
      */
-    getReportDetails(query: Contracts.GetReportDetailsQuery): Promise<Report>;
+    getReportDetails(query: Contracts.IGetReportDetailsQuery): Promise<Report>;
 
     /**
      * Lists reports based on the provided filter.
      * @param query The query containing the filter criteria.
      * @returns An array of reports matching the filter.
      */
-    listReports(query: Contracts.ListReportsQuery): Promise<Report[]>;
+    listReports(query: Contracts.IListReportsQuery): Promise<Report[]>;
 }

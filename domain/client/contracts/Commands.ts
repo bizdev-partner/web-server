@@ -61,3 +61,13 @@ export class DeleteClientCommand extends Model {
         this.clientId = clientId;
     }
 }
+
+export type ICreateClientCommand = Pick<CreateClientCommand, "name" | "contactInfo" | "notes" | "tags">;
+
+export type IUpdateClientCommand = Pick<UpdateClientCommand, "clientId" | "updatedFields">;
+
+export type IAssociateSalesPackageCommand = Pick<AssociateSalesPackageCommand, "clientId" | "salesPackageId">;
+
+export type IAssociateCampaignCommand = Pick<AssociateCampaignCommand, "clientId" | "campaignId">;
+
+export type IDeleteClientCommand = Pick<DeleteClientCommand, "clientId">;

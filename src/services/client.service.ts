@@ -10,13 +10,13 @@ import { Note } from '@domain/common/Note';
 export class ClientService implements IClientService {
     constructor(private readonly clients: ClientRepository) {}
 
-    async getClientDetails(query: Contracts.GetClientDetailsQuery): Promise<Client> {
+    async getClientDetails(query: Contracts.IGetClientDetailsQuery): Promise<Client> {
         const client = await this.clients.findById(query.clientId);
         if (!client) throw new Error(`Client with ID ${query.clientId} not found.`);
         return client;
     }
 
-    async listClients(query: Contracts.ListClientsQuery): Promise<Client[]> {
+    async listClients(query: Contracts.IListClientsQuery): Promise<Client[]> {
         let clients = await this.clients.findAll();
 
         if (query.status) {
@@ -38,7 +38,7 @@ export class ClientService implements IClientService {
         return clients;
     }
 
-    async createClient(command: Contracts.CreateClientCommand): Promise<Client> {
+    async createClient(command: Contracts.ICreateClientCommand): Promise<Client> {
         const client = new Client({
             name: command.name,
             contactInfo: command.contactInfo,
@@ -50,27 +50,21 @@ export class ClientService implements IClientService {
         return client;
     }
 
-    async updateClient(command: Contracts.UpdateClientCommand): Promise<Client> {
-        const query = new Contracts.GetClientDetailsQuery()
-        query.clientId = command.clientId;
-        const client = await this.getClientDetails(query);
+    async updateClient(command: Contracts.IUpdateClientCommand): Promise<Client> {
+        const client = await this.getClientDetails(command);
         Object.assign(client, command.updatedFields);
         client.updatedAt = new Date();
         await this.clients.update(client);
         return client;
     }
 
-    async deleteClient(command: Contracts.DeleteClientCommand): Promise<void> {
-        const query = new Contracts.GetClientDetailsQuery()
-        query.clientId = command.clientId;
-        const client = await this.getClientDetails(query);
+    async deleteClient(command: Contracts.IDeleteClientCommand): Promise<void> {
+        const client = await this.getClientDetails(command);
         await this.clients.delete(client);
     }
 
-    async associateSalesPackage(command: Contracts.AssociateSalesPackageCommand): Promise<Client> {
-        const query = new Contracts.GetClientDetailsQuery()
-        query.clientId = command.clientId;
-        const client = await this.getClientDetails(query);
+    async associateSalesPackage(command: Contracts.IAssociateSalesPackageCommand): Promise<Client> {
+        const client = await this.getClientDetails(command);
         if (!client.salesPackages.some((pkg) => pkg.value === command.salesPackageId)) {
             client.salesPackages.push(new UniqueIdentifier({ value: command.salesPackageId }));
         }
@@ -78,10 +72,8 @@ export class ClientService implements IClientService {
         return client;
     }
 
-    async associateCampaign(command: Contracts.AssociateCampaignCommand): Promise<Client> {
-        const query = new Contracts.GetClientDetailsQuery()
-        query.clientId = command.clientId;
-        const client = await this.getClientDetails(query);
+    async associateCampaign(command: Contracts.IAssociateCampaignCommand): Promise<Client> {
+        const client = await this.getClientDetails(command);
         if (!client.activeCampaigns.some((campaign) => campaign.value === command.campaignId)) {
             client.activeCampaigns.push(new UniqueIdentifier({ value: command.campaignId }));
         }
@@ -89,17 +81,13 @@ export class ClientService implements IClientService {
         return client;
     }
 
-    async getClientSalesPackages(query: Contracts.GetClientSalesPackagesQuery): Promise<UniqueIdentifier[]> {
-        const detailsQuery = new Contracts.GetClientDetailsQuery()
-        detailsQuery.clientId = query.clientId;
-        const client = await this.getClientDetails(detailsQuery);
+    async getClientSalesPackages(query: Contracts.IGetClientSalesPackagesQuery): Promise<UniqueIdentifier[]> {
+        const client = await this.getClientDetails(query);
         return client.salesPackages;
     }
 
-    async getClientCampaigns(query: Contracts.GetClientCampaignsQuery): Promise<UniqueIdentifier[]> {
-        const detailsQuery = new Contracts.GetClientDetailsQuery()
-        detailsQuery.clientId = query.clientId;
-        const client = await this.getClientDetails(detailsQuery);
+    async getClientCampaigns(query: Contracts.IGetClientCampaignsQuery): Promise<UniqueIdentifier[]> {
+        const client = await this.getClientDetails(query);
         return client.activeCampaigns;
     }
 

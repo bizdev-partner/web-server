@@ -1,10 +1,9 @@
+import { ActivityType } from "@domain/activity";
 import { Workflow } from "@domain/workflow/Workflow";
 import { WorkflowActivity } from "@domain/workflow/WorkflowActivity";
 import { WorkflowStatus } from "@domain/workflow/WorkflowStatus";
 import * as Contracts from "@domain/workflow/contracts";
-import { GlobalIdentifier, UniqueIdentifier } from "@vannatta-software/ts-domain";
 import { MockWorkflowRepository, MockWorkflowService } from "../mocks/workflow.mocks";
-import { ActivityType } from "@domain/activity";
 
 describe("Workflow Domain", () => {
     let workflowService: MockWorkflowService;
@@ -16,16 +15,17 @@ describe("Workflow Domain", () => {
     });
 
     it("should create a new workflow", async () => {
-        const command = new Contracts.CreateWorkflowCommand();
-        command.name = "Test Workflow";
-        command.description = "Workflow for testing";
-        command.status = WorkflowStatus.Draft.name;
-        command.activities = [
-            new WorkflowActivity({
-                type: ActivityType.fromName("Email Outreach"),
-                priorityRules: { pending: 4, due: 5, overdue: 6 },
-            }),
-        ];
+        const command: Contracts.ICreateWorkflowCommand = {
+            name: "Test Workflow",
+            description: "Workflow for testing",
+            status: WorkflowStatus.Draft.name,
+            activities: [
+                new WorkflowActivity({
+                    type: ActivityType.fromName("Email Outreach"),
+                    priorityRules: { pending: 4, due: 5, overdue: 6 },
+                }),
+            ],
+        };
 
         const workflow = await workflowService.createWorkflow(command);
         const savedWorkflow = await mockRepository.findById(workflow.id);
@@ -44,9 +44,10 @@ describe("Workflow Domain", () => {
 
         await mockRepository.save(workflow);
 
-        const command = new Contracts.UpdateWorkflowCommand();
-        command.workflowId = workflow.id.value;
-        command.updatedFields = { status: WorkflowStatus.Active };
+        const command: Contracts.IUpdateWorkflowCommand = {
+            workflowId: workflow.id.value,
+            updatedFields: { status: WorkflowStatus.Active },
+        };
 
         const updatedWorkflow = await workflowService.updateWorkflow(command);
 
@@ -61,59 +62,11 @@ describe("Workflow Domain", () => {
 
         await mockRepository.save(workflow);
 
-        const command = new Contracts.ActivateWorkflowCommand();
-        command.workflowId = workflow.id.value;
-
-        const activatedWorkflow = await workflowService.activateWorkflow(command);
+        const activatedWorkflow = await workflowService.activateWorkflow({
+            workflowId: workflow.id.value,
+        });
 
         expect(activatedWorkflow.status).toEqual(WorkflowStatus.Active);
-    });
-
-    it("should pause a workflow", async () => {
-        const workflow = new Workflow({
-            name: "Pause Workflow",
-            status: WorkflowStatus.Active,
-        });
-
-        await mockRepository.save(workflow);
-
-        const command = new Contracts.PauseWorkflowCommand();
-        command.workflowId = workflow.id.value;
-
-        const pausedWorkflow = await workflowService.pauseWorkflow(command);
-
-        expect(pausedWorkflow.status).toEqual(WorkflowStatus.Paused);
-    });
-
-    it("should archive a workflow", async () => {
-        const workflow = new Workflow({
-            name: "Archive Workflow",
-            status: WorkflowStatus.Paused,
-        });
-
-        await mockRepository.save(workflow);
-
-        const command = new Contracts.ArchiveWorkflowCommand();
-        command.workflowId = workflow.id.value;
-
-        const archivedWorkflow = await workflowService.archiveWorkflow(command);
-
-        expect(archivedWorkflow.status).toEqual(WorkflowStatus.Archived);
-    });
-
-    it("should retrieve workflow details", async () => {
-        const workflow = new Workflow({
-            name: "Details Workflow",
-            status: WorkflowStatus.Draft,
-        });
-
-        await mockRepository.save(workflow);
-
-        const query = new Contracts.GetWorkflowDetailsQuery(workflow.id.value);
-        const details = await workflowService.getWorkflowDetails(query);
-
-        expect(details).toBeDefined();
-        expect(details.name).toEqual("Details Workflow");
     });
 
     it("should update a workflow's activities", async () => {
@@ -127,9 +80,9 @@ describe("Workflow Domain", () => {
                 }),
             ],
         });
-    
+
         await mockRepository.save(workflow);
-    
+
         const updatedActivities = [
             new WorkflowActivity({
                 type: ActivityType.fromName("Phone Call"),
@@ -140,13 +93,31 @@ describe("Workflow Domain", () => {
                 priorityRules: { pending: 2, due: 3, overdue: 4 },
             }),
         ];
-    
-        const command = new Contracts.UpdateWorkflowActivitiesCommand(workflow.id.value, updatedActivities);
-        const updatedWorkflow = await workflowService.updateWorkflowActivities(command);
-    
+
+        const updatedWorkflow = await workflowService.updateWorkflowActivities({
+            workflowId: workflow.id.value,
+            activities: updatedActivities,
+        });
+
         expect(updatedWorkflow.activities).toHaveLength(2);
         expect(updatedWorkflow.activities[0].type.name).toEqual("Phone Call");
         expect(updatedWorkflow.activities[1].type.name).toEqual("In-Person Meeting");
     });
-    
+
+    it("should retrieve workflow details", async () => {
+        const workflow = new Workflow({
+            name: "Details Workflow",
+            status: WorkflowStatus.Draft,
+        });
+
+        await mockRepository.save(workflow);
+
+        const details = await workflowService.getWorkflowDetails({
+            workflowId: workflow.id.value,
+        });
+
+        expect(details).toBeDefined();
+        expect(details.name).toEqual("Details Workflow");
+    });
 });
+

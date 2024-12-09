@@ -42,11 +42,11 @@ export class MockSalesPackageRepository implements ISalesPackageRepository {
 export class MockSalesPackageService implements ISalesPackageService {
     private repository: ISalesPackageRepository;
 
-    constructor(repository: ISalesPackageRepository) {
+    constructor(repository: ISalesPackageRepository = new MockSalesPackageRepository()) {
         this.repository = repository;
     }
 
-    async createPackage(command: Contracts.CreatePackageCommand): Promise<SalesPackage> {
+    async createPackage(command: Contracts.ICreatePackageCommand): Promise<SalesPackage> {
         const salesPackage = new SalesPackage({
             name: command.name,
             workflowId: new UniqueIdentifier({ value: command.workflowId }),
@@ -66,7 +66,7 @@ export class MockSalesPackageService implements ISalesPackageService {
         return salesPackage;
     }
 
-    async updatePackage(command: Contracts.UpdatePackageCommand): Promise<SalesPackage> {
+    async updatePackage(command: Contracts.IUpdatePackageCommand): Promise<SalesPackage> {
         const salesPackage = await this.repository.findById(new GlobalIdentifier(command.packageId));
         if (!salesPackage) {
             throw new Error(`SalesPackage with ID ${command.packageId} not found.`);
@@ -78,7 +78,7 @@ export class MockSalesPackageService implements ISalesPackageService {
         return salesPackage;
     }    
 
-    async addFeedback(command: Contracts.AddFeedbackCommand): Promise<Note[]> {
+    async addFeedback(command: Contracts.IAddFeedbackCommand): Promise<Note[]> {
         const salesPackage = await this.repository.findById(new GlobalIdentifier(command.packageId));
         if (!salesPackage) {
             throw new Error(`SalesPackage with ID ${command.packageId} not found.`);
@@ -96,7 +96,7 @@ export class MockSalesPackageService implements ISalesPackageService {
         return salesPackage.feedback;
     }
 
-    async deletePackage(command: Contracts.DeletePackageCommand): Promise<void> {
+    async deletePackage(command: Contracts.IDeletePackageCommand): Promise<void> {
         const salesPackage = await this.repository.findById(new GlobalIdentifier(command.packageId));
         if (!salesPackage) {
             throw new Error(`SalesPackage with ID ${command.packageId} not found.`);
@@ -105,7 +105,7 @@ export class MockSalesPackageService implements ISalesPackageService {
         await this.repository.delete(new GlobalIdentifier(command.packageId));
     }
 
-    async getPackageDetails(query: Contracts.GetPackageDetailsQuery): Promise<SalesPackage> {
+    async getPackageDetails(query: Contracts.IGetPackageDetailsQuery): Promise<SalesPackage> {
         const salesPackage = await this.repository.findById(new GlobalIdentifier(query.packageId));
         if (!salesPackage) {
             throw new Error(`SalesPackage with ID ${query.packageId} not found.`);
@@ -114,7 +114,7 @@ export class MockSalesPackageService implements ISalesPackageService {
         return salesPackage;
     }
 
-    async listPackages(query: Contracts.ListPackagesQuery): Promise<SalesPackage[]> {
+    async listPackages(query: Contracts.IListPackagesQuery): Promise<SalesPackage[]> {
         return this.repository.getAll(query.filter);
     }
 }

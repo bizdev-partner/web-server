@@ -13,7 +13,7 @@ export class WorkflowService {
         private readonly repository: WorkflowRepository
     ) {}
 
-    async createWorkflow(command: Contracts.CreateWorkflowCommand): Promise<Workflow> {
+    async createWorkflow(command: Contracts.ICreateWorkflowCommand): Promise<Workflow> {
         const workflow = new Workflow({
             name: command.name,
             description: command.description,
@@ -33,7 +33,7 @@ export class WorkflowService {
         return workflow;
     }
 
-    async updateWorkflow(command: Contracts.UpdateWorkflowCommand): Promise<Workflow> {
+    async updateWorkflow(command: Contracts.IUpdateWorkflowCommand): Promise<Workflow> {
         const workflow = await this.repository.findById(command.workflowId);
 
         if (!workflow) {
@@ -45,7 +45,7 @@ export class WorkflowService {
         return workflow;
     }
 
-    async activateWorkflow(command: Contracts.ActivateWorkflowCommand): Promise<Workflow> {
+    async activateWorkflow(command: Contracts.IActivateWorkflowCommand): Promise<Workflow> {
         const workflow = await this.repository.findById(command.workflowId);
 
         if (!workflow) {
@@ -57,7 +57,7 @@ export class WorkflowService {
         return workflow;
     }
 
-    async pauseWorkflow(command: Contracts.PauseWorkflowCommand): Promise<Workflow> {
+    async pauseWorkflow(command: Contracts.IPauseWorkflowCommand): Promise<Workflow> {
         const workflow = await this.repository.findById(command.workflowId);
 
         if (!workflow) {
@@ -69,7 +69,7 @@ export class WorkflowService {
         return workflow;
     }
 
-    async archiveWorkflow(command: Contracts.ArchiveWorkflowCommand): Promise<Workflow> {
+    async archiveWorkflow(command: Contracts.IArchiveWorkflowCommand): Promise<Workflow> {
         const workflow = await this.repository.findById(command.workflowId);
 
         if (!workflow) {
@@ -81,7 +81,7 @@ export class WorkflowService {
         return workflow;
     }
 
-    async getWorkflowDetails(query: Contracts.GetWorkflowDetailsQuery): Promise<Workflow> {
+    async getWorkflowDetails(query: Contracts.IGetWorkflowDetailsQuery): Promise<Workflow> {
         const workflow = await this.repository.findById(query.workflowId);
 
         if (!workflow) {
@@ -91,7 +91,7 @@ export class WorkflowService {
         return workflow;
     }
 
-    async listWorkflows(query: Contracts.ListWorkflowsQuery): Promise<Workflow[]> {
+    async listWorkflows(query: Contracts.IListWorkflowsQuery): Promise<Workflow[]> {
         const workflows = await this.repository.findAll();
 
         if (query.status) {
@@ -111,7 +111,7 @@ export class WorkflowService {
         return workflow.activities;
     }
 
-    async updateWorkflowActivities(command: Contracts.UpdateWorkflowActivitiesCommand): Promise<Workflow> {
+    async updateWorkflowActivities(command: Contracts.IUpdateWorkflowActivitiesCommand): Promise<Workflow> {
         const workflow = await this.repository.findById(command.workflowId);
 
         if (!workflow) {

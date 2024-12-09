@@ -12,20 +12,20 @@ import { Validity } from '@domain/sales_package/Validity';
 export class SalesPackageService implements ISalesPackageService {
     constructor(private readonly repository: SalesPackageRepository) {}
 
-    async getPackageDetails(query: Contracts.GetPackageDetailsQuery): Promise<SalesPackage> {
+    async getPackageDetails(query: Contracts.IGetPackageDetailsQuery): Promise<SalesPackage> {
         const salesPackage = await this.repository.findById(query.packageId);
         if (!salesPackage) throw new Error('Sales Package not found');
         return salesPackage;
     }
 
-    async listPackages(query: Contracts.ListPackagesQuery): Promise<SalesPackage[]> {
+    async listPackages(query: Contracts.IListPackagesQuery): Promise<SalesPackage[]> {
         if (query.filter && query.filter.workflowId) {
             return this.repository.findByWorkflowId(new UniqueIdentifier({ value: query.filter.workflowId }));
         }
         return this.repository.findAll();
     }
 
-    async createPackage(command: Contracts.CreatePackageCommand): Promise<SalesPackage> {
+    async createPackage(command: Contracts.ICreatePackageCommand): Promise<SalesPackage> {
         const salesPackage = new SalesPackage({
             name: command.name,
             workflowId: new UniqueIdentifier({ value: command.workflowId }),
@@ -39,21 +39,21 @@ export class SalesPackageService implements ISalesPackageService {
         return salesPackage;
     }
 
-    async updatePackage(command: Contracts.UpdatePackageCommand): Promise<SalesPackage> {
-        const salesPackage = await this.getPackageDetails(new Contracts.GetPackageDetailsQuery(command.packageId));
+    async updatePackage(command: Contracts.IUpdatePackageCommand): Promise<SalesPackage> {
+        const salesPackage = await this.getPackageDetails(command);
         Object.assign(salesPackage, command.updatedFields);
         await this.repository.update(salesPackage);
         return salesPackage;
     }
 
-    async addFeedback(command: Contracts.AddFeedbackCommand): Promise<Note[]> {
-        const salesPackage = await this.getPackageDetails(new Contracts.GetPackageDetailsQuery(command.packageId));
+    async addFeedback(command: Contracts.IAddFeedbackCommand): Promise<Note[]> {
+        const salesPackage = await this.getPackageDetails(command);
         salesPackage.feedback.push(new Note(command));
         await this.repository.update(salesPackage);
         return salesPackage.feedback;
     }
 
-    async deletePackage(command: Contracts.DeletePackageCommand): Promise<void> {
+    async deletePackage(command: Contracts.IDeletePackageCommand): Promise<void> {
         var salesPackage = await this.repository.findById(command.packageId);
 
         await this.repository.delete(salesPackage);

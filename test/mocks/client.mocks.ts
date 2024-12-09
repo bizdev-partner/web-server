@@ -46,11 +46,11 @@ export class MockClientRepository implements IClientRepository {
 export class MockClientService implements IClientService {
     private repository: IClientRepository;
 
-    constructor(repository: IClientRepository) {
+    constructor(repository: IClientRepository = new MockClientRepository()) {
         this.repository = repository;
     }
 
-    async createClient(command: Contracts.CreateClientCommand): Promise<Client> {
+    async createClient(command: Contracts.ICreateClientCommand): Promise<Client> {
         const client = new Client({
             name: command.name,
             contactInfo: command.contactInfo,
@@ -62,7 +62,7 @@ export class MockClientService implements IClientService {
         return client;
     }
 
-    async updateClient(command: Contracts.UpdateClientCommand): Promise<Client> {
+    async updateClient(command: Contracts.IUpdateClientCommand): Promise<Client> {
         const client = await this.repository.findById(new GlobalIdentifier(command.clientId));
         if (!client) {
             throw new Error(`Client with ID ${command.clientId} not found.`);
@@ -75,7 +75,7 @@ export class MockClientService implements IClientService {
         return client;
     }
 
-    async deleteClient(command: Contracts.DeleteClientCommand): Promise<void> {
+    async deleteClient(command: Contracts.IDeleteClientCommand): Promise<void> {
         const client = await this.repository.findById(new GlobalIdentifier(command.clientId));
         if (!client) {
             throw new Error(`Client with ID ${command.clientId} not found.`);
@@ -84,7 +84,7 @@ export class MockClientService implements IClientService {
         await this.repository.delete(client.id);
     }
 
-    async associateSalesPackage(command: Contracts.AssociateSalesPackageCommand): Promise<Client> {
+    async associateSalesPackage(command: Contracts.IAssociateSalesPackageCommand): Promise<Client> {
         const client = await this.repository.findById(new GlobalIdentifier(command.clientId));
         if (!client) {
             throw new Error(`Client with ID ${command.clientId} not found.`);
@@ -98,7 +98,7 @@ export class MockClientService implements IClientService {
         return client;
     }
 
-    async associateCampaign(command: Contracts.AssociateCampaignCommand): Promise<Client> {
+    async associateCampaign(command: Contracts.IAssociateCampaignCommand): Promise<Client> {
         const client = await this.repository.findById(new GlobalIdentifier(command.clientId));
         if (!client) {
             throw new Error(`Client with ID ${command.clientId} not found.`);
@@ -112,7 +112,7 @@ export class MockClientService implements IClientService {
         return client;
     }
 
-    async getClientDetails(query: Contracts.GetClientDetailsQuery): Promise<Client> {
+    async getClientDetails(query: Contracts.IGetClientDetailsQuery): Promise<Client> {
         const client = await this.repository.findById(new GlobalIdentifier(query.clientId));
         if (!client) {
             throw new Error(`Client with ID ${query.clientId} not found.`);
@@ -121,7 +121,7 @@ export class MockClientService implements IClientService {
         return client;
     }
 
-    async listClients(query: Contracts.ListClientsQuery): Promise<Client[]> {
+    async listClients(query: Contracts.IListClientsQuery): Promise<Client[]> {
         let clients = await this.repository.getAll();
     
         if (query.status) {
@@ -142,7 +142,7 @@ export class MockClientService implements IClientService {
     
         return clients;
     }
-    async getClientSalesPackages(query: Contracts.GetClientSalesPackagesQuery): Promise<UniqueIdentifier[]> {
+    async getClientSalesPackages(query: Contracts.IGetClientSalesPackagesQuery): Promise<UniqueIdentifier[]> {
         const client = await this.repository.findById(new GlobalIdentifier(query.clientId));
         if (!client) {
             throw new Error(`Client with ID ${query.clientId} not found.`);
@@ -151,7 +151,7 @@ export class MockClientService implements IClientService {
         return client.salesPackages;
     }
 
-    async getClientCampaigns(query: Contracts.GetClientCampaignsQuery): Promise<UniqueIdentifier[]> {
+    async getClientCampaigns(query: Contracts.IGetClientCampaignsQuery): Promise<UniqueIdentifier[]> {
         const client = await this.repository.findById(new GlobalIdentifier(query.clientId));
         if (!client) {
             throw new Error(`Client with ID ${query.clientId} not found.`);

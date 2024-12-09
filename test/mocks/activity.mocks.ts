@@ -35,12 +35,12 @@ class MockActivityRepository implements IActivityRepository {
 class MockActivityService implements IActivityService {
     private repository: IActivityRepository;
 
-    constructor(repository: IActivityRepository) {
+    constructor(repository: IActivityRepository = new MockActivityRepository()) {
         this.repository = repository;
     }
 
     async scheduleActivity(
-        command: Contracts.ScheduleActivityCommand
+        command: Contracts.IScheduleActivityCommand
     ): Promise<Activity> {
         const activity = new Activity({
             type: ActivityType.fromName(command.type),
@@ -56,7 +56,7 @@ class MockActivityService implements IActivityService {
     }
 
     async completeActivity(
-        command: Contracts.CompleteActivityCommand
+        command: Contracts.ICompleteActivityCommand
     ): Promise<Activity> {
         const activity = await this.repository.findById(new GlobalIdentifier(command.activityId));
         if (!activity) {
@@ -73,7 +73,7 @@ class MockActivityService implements IActivityService {
     }
 
     async cancelActivity(
-        command: Contracts.CancelActivityCommand
+        command: Contracts.ICancelActivityCommand
     ): Promise<Activity> {
         const activity = await this.repository.findById(new GlobalIdentifier(command.activityId));
         if (!activity) {
@@ -86,7 +86,7 @@ class MockActivityService implements IActivityService {
     }
 
     async rescheduleActivity(
-        command: Contracts.RescheduleActivityCommand
+        command: Contracts.IRescheduleActivityCommand
     ): Promise<Activity> {
         const activity = await this.repository.findById(new GlobalIdentifier(command.activityId));
         if (!activity) {
@@ -99,13 +99,13 @@ class MockActivityService implements IActivityService {
     }
 
     async getActivitiesForLead(
-        query: Contracts.ListActivitiesForLeadQuery
+        query: Contracts.IListActivitiesForLeadQuery
     ): Promise<Activity[]> {
         return this.repository.findByLeadId(new UniqueIdentifier({ value: query.leadId }));
     }
 
     async getActivityDetails(
-        query: Contracts.GetActivityDetailsQuery
+        query: Contracts.IGetActivityDetailsQuery
     ): Promise<Activity> {
         const activity = await this.repository.findById(new GlobalIdentifier(query.activityId));
         if (!activity) {
@@ -115,7 +115,7 @@ class MockActivityService implements IActivityService {
         return activity;
     }
     
-    async getActivityTemplates(query: Contracts.ListActivityTemplatesQuery): Promise<Activity[]> {
+    async getActivityTemplates(query: Contracts.IListActivityTemplatesQuery): Promise<Activity[]> {
         return Activity.generateTemplates();
     }
 }

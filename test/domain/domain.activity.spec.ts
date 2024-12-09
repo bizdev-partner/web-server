@@ -16,13 +16,13 @@ describe("Activity Domain", () => {
 
     it("should create and schedule a new activity", async () => {
         const scheduleDate = new Date();
-        const command = new Contracts.ScheduleActivityCommand();
-
-        command.type = ActivityType.EmailOutreach.name;
-        command.priority = PriorityType.Medium.name;
-        command.scheduledDate = scheduleDate;
-        command.leadId = "lead-1";
-        command.notes = ["Initial outreach"];
+        const command: Contracts.IScheduleActivityCommand = {
+            type: ActivityType.EmailOutreach.name,
+            priority: PriorityType.Medium.name,
+            scheduledDate: scheduleDate,
+            leadId: "lead-1",
+            notes: ["Initial outreach"],
+        };
 
         const activity = await activityService.scheduleActivity(command);
         const savedActivity = await mockRepository.findById(activity.id);
@@ -47,13 +47,12 @@ describe("Activity Domain", () => {
 
         await mockRepository.save(activity);
 
-        const command = new Contracts.CompleteActivityCommand();
-        command.activityId = activity.id.value;
-        command.outcome = new ActivityOutcome({
-            description: "Call Connected",
+        const command: Contracts.ICompleteActivityCommand = {
+            activityId: activity.id.value,
+            outcome: "Call Connected",
             success: true,
-        }).description;
-        command.completionDate = new Date();
+            completionDate: new Date(),
+        };
 
         const completedActivity = await activityService.completeActivity(command);
 
@@ -67,13 +66,14 @@ describe("Activity Domain", () => {
             type: ActivityType.InPersonMeeting,
             priority: PriorityType.Low,
             status: ActivityStatus.Open,
-            leadId: new UniqueIdentifier({ value: "lead-3"}),
+            leadId: new UniqueIdentifier({ value: "lead-3" }),
         });
 
         await mockRepository.save(activity);
 
-        const command = new Contracts.CancelActivityCommand();
-        command.activityId = activity.id.value;
+        const command: Contracts.ICancelActivityCommand = {
+            activityId: activity.id.value,
+        };
 
         const canceledActivity = await activityService.cancelActivity(command);
 
@@ -86,15 +86,16 @@ describe("Activity Domain", () => {
             priority: PriorityType.High,
             status: ActivityStatus.Open,
             scheduledDate: new Date(),
-            leadId: new UniqueIdentifier({ value: "lead-4"}),
+            leadId: new UniqueIdentifier({ value: "lead-4" }),
         });
 
         await mockRepository.save(activity);
 
         const newDate = new Date(Date.now() + 86400000); // 1 day later
-        const command = new Contracts.RescheduleActivityCommand();
-        command.activityId = activity.id.value;
-        command.newScheduledDate = newDate;
+        const command: Contracts.IRescheduleActivityCommand = {
+            activityId: activity.id.value,
+            newScheduledDate: newDate,
+        };
 
         const rescheduledActivity = await activityService.rescheduleActivity(command);
 
@@ -103,7 +104,7 @@ describe("Activity Domain", () => {
     });
 
     it("should retrieve activities for a specific lead", async () => {
-        const leadId = new UniqueIdentifier({ value: "lead-5"});
+        const leadId = new UniqueIdentifier({ value: "lead-5" });
         const activities = [
             new Activity({
                 type: ActivityType.EmailOutreach,
@@ -115,7 +116,7 @@ describe("Activity Domain", () => {
             }),
             new Activity({
                 type: ActivityType.NetworkingEvent,
-                leadId: new UniqueIdentifier({ value: "other-lead"}),
+                leadId: new UniqueIdentifier({ value: "other-lead" }),
             }),
         ];
 
@@ -123,7 +124,7 @@ describe("Activity Domain", () => {
             await mockRepository.save(activity);
         }
 
-        const query = new Contracts.ListActivitiesForLeadQuery(leadId.value);
+        const query: Contracts.IListActivitiesForLeadQuery = { leadId: leadId.value };
         const leadActivities = await activityService.getActivitiesForLead(query);
 
         expect(leadActivities).toHaveLength(2);
@@ -134,12 +135,12 @@ describe("Activity Domain", () => {
         const activity = new Activity({
             type: ActivityType.Closing,
             priority: PriorityType.High,
-            leadId: new UniqueIdentifier({ value: "lead-6"}),
+            leadId: new UniqueIdentifier({ value: "lead-6" }),
         });
 
         await mockRepository.save(activity);
 
-        const query = new Contracts.GetActivityDetailsQuery(activity.id.value);
+        const query: Contracts.IGetActivityDetailsQuery = { activityId: activity.id.value };
         const details = await activityService.getActivityDetails(query);
 
         expect(details).toBeDefined();

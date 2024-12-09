@@ -34,3 +34,10 @@ export class DeleteReportCommand extends Model {
     @Validation({ required: true })
     public reportId: string;
 }
+
+export type ICreateReportCommand = Pick<
+    CreateReportCommand,
+    "title" | "description" | "type" | "format" | "requestedBy" | "parameters"
+>;
+
+export type IDeleteReportCommand = Pick<DeleteReportCommand, "reportId">;

@@ -9,63 +9,63 @@ export interface IClientService {
      * @param command The command containing details to create a client.
      * @returns The created client.
      */
-    createClient(command: Contracts.CreateClientCommand): Promise<Client>;
+    createClient(command: Contracts.ICreateClientCommand): Promise<Client>;
 
     /**
      * Updates client details and propagates changes as needed.
      * @param command The command containing details to update a client.
      * @returns The updated client.
      */
-    updateClient(command: Contracts.UpdateClientCommand): Promise<Client>;
+    updateClient(command: Contracts.IUpdateClientCommand): Promise<Client>;
 
     /**
      * Deletes a client and performs necessary cleanup.
      * @param command The command containing details to delete a client.
      * @returns A promise resolving when the client is deleted.
      */
-    deleteClient(command: Contracts.DeleteClientCommand): Promise<void>;
+    deleteClient(command: Contracts.IDeleteClientCommand): Promise<void>;
 
     /**
      * Associates a sales package with a client.
      * @param command The command containing details to associate a sales package with a client.
      * @returns The updated client.
      */
-    associateSalesPackage(command: Contracts.AssociateSalesPackageCommand): Promise<Client>;
+    associateSalesPackage(command: Contracts.IAssociateSalesPackageCommand): Promise<Client>;
 
     /**
      * Associates a campaign with a client.
      * @param command The command containing details to associate a campaign with a client.
      * @returns The updated client.
      */
-    associateCampaign(command: Contracts.AssociateCampaignCommand): Promise<Client>;
+    associateCampaign(command: Contracts.IAssociateCampaignCommand): Promise<Client>;
 
     /**
      * Retrieves detailed information about a client.
      * @param query The query containing the client ID to retrieve details for.
      * @returns The detailed client.
      */
-    getClientDetails(query: Contracts.GetClientDetailsQuery): Promise<Client>;
+    getClientDetails(query: Contracts.IGetClientDetailsQuery): Promise<Client>;
 
     /**
      * Retrieves a list of clients, optionally filtered by status.
      * @param query The query containing the optional status filter.
      * @returns A list of clients matching the filter.
      */
-    listClients(query: Contracts.ListClientsQuery): Promise<Client[]>;
+    listClients(query: Contracts.IListClientsQuery): Promise<Client[]>;
 
     /**
      * Retrieves the sales packages associated with a client.
      * @param query The query containing the client ID to retrieve sales packages for.
      * @returns A list of sales packages associated with the client.
      */
-    getClientSalesPackages(query: Contracts.GetClientSalesPackagesQuery): Promise<UniqueIdentifier[]>;
+    getClientSalesPackages(query: Contracts.IGetClientSalesPackagesQuery): Promise<UniqueIdentifier[]>;
 
     /**
      * Retrieves the campaigns associated with a client.
      * @param query The query containing the client ID to retrieve campaigns for.
      * @returns A list of campaigns associated with the client.
      */
-    getClientCampaigns(query: Contracts.GetClientCampaignsQuery): Promise<UniqueIdentifier[]>;
+    getClientCampaigns(query: Contracts.IGetClientCampaignsQuery): Promise<UniqueIdentifier[]>;
 
     /**
      * Adds a note to a client's notes array.

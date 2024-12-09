@@ -23,3 +23,7 @@ export class ListCampaignsQuery extends Model {
         this.status = status;
     }
 }
+
+export type IGetCampaignDetailsQuery = Pick<GetCampaignDetailsQuery, "campaignId">;
+
+export type IListCampaignsQuery = Pick<ListCampaignsQuery, "status">;

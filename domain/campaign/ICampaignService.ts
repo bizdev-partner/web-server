@@ -9,28 +9,28 @@ export interface ICampaignService {
      * @param command The command containing details to launch a campaign.
      * @returns The launched campaign.
      */
-    launchCampaign(command: Contracts.LaunchCampaignCommand): Promise<Campaign>;
+    launchCampaign(command: Contracts.ILaunchCampaignCommand): Promise<Campaign>;
 
     /**
      * Pauses an active campaign.
      * @param command The command containing details to pause a campaign.
      * @returns The paused campaign.
      */
-    pauseCampaign(command: Contracts.PauseCampaignCommand): Promise<Campaign>;
+    pauseCampaign(command: Contracts.IPauseCampaignCommand): Promise<Campaign>;
 
     /**
      * Resumes a paused campaign.
      * @param command The command containing details to resume a campaign.
      * @returns The resumed campaign.
      */
-    resumeCampaign(command: Contracts.ResumeCampaignCommand): Promise<Campaign>;
+    resumeCampaign(command: Contracts.IResumeCampaignCommand): Promise<Campaign>;
 
     /**
      * Completes a campaign and calculates metrics.
      * @param command The command containing details to complete a campaign.
      * @returns The completed campaign.
      */
-    completeCampaign(command: Contracts.CompleteCampaignCommand): Promise<Campaign>;
+    completeCampaign(command: Contracts.ICompleteCampaignCommand): Promise<Campaign>;
 
     /**
      * Tracks the completion of campaign activities and updates metrics.
@@ -44,12 +44,12 @@ export interface ICampaignService {
      * @param query The query containing the campaign ID to retrieve details for.
      * @returns The detailed campaign.
      */
-    getCampaignDetails(query: Contracts.GetCampaignDetailsQuery): Promise<Campaign>;
+    getCampaignDetails(query: Contracts.IGetCampaignDetailsQuery): Promise<Campaign>;
 
     /**
      * Retrieves a list of campaigns, optionally filtered by status.
      * @param query The query containing the optional status filter.
      * @returns A list of campaigns matching the filter.
      */
-    listCampaigns(query: Contracts.ListCampaignsQuery): Promise<Campaign[]>;
+    listCampaigns(query: Contracts.IListCampaignsQuery): Promise<Campaign[]>;
 }

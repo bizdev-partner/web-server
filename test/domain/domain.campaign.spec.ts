@@ -1,10 +1,9 @@
+import { ActivityStatus } from "@domain/activity";
 import { Campaign } from "@domain/campaign/Campaign";
 import { CampaignActivity } from "@domain/campaign/CampaignActivity";
-import { MockCampaignRepository, MockCampaignService } from "../mocks/campaign.mocks";
-import { GlobalIdentifier, UniqueIdentifier } from "@vannatta-software/ts-domain";
-import * as Contracts from "@domain/campaign/contracts";
 import { CampaignStatus } from "@domain/campaign/CampaignStatus";
-import { ActivityStatus } from "@domain/activity";
+import { UniqueIdentifier } from "@vannatta-software/ts-domain";
+import { MockCampaignRepository, MockCampaignService } from "../mocks/campaign.mocks";
 
 describe("Campaign Domain Tests", () => {
     let repository: MockCampaignRepository;
@@ -128,10 +127,8 @@ describe("Campaign Domain Tests", () => {
             });
 
             await repository.save(campaign);
-            
-            const command = new Contracts.LaunchCampaignCommand(campaign.id.value);
-            const launchedCampaign = await service.launchCampaign(command);
 
+            const launchedCampaign = await service.launchCampaign({ campaignId: campaign.id.value });
             expect(launchedCampaign.status).toBe(CampaignStatus.Active);
         });
 
@@ -189,9 +186,7 @@ describe("Campaign Domain Tests", () => {
 
             await repository.save(campaign);
 
-            const command = new Contracts.PauseCampaignCommand(campaign.id.value);
-            const pausedCampaign = await service.pauseCampaign(command);
-
+            const pausedCampaign = await service.pauseCampaign({ campaignId: campaign.id.value });
             expect(pausedCampaign.status).toBe(CampaignStatus.Paused);
         });
     });

@@ -30,11 +30,11 @@ export class MockWorkflowRepository implements IWorkflowRepository {
 export class MockWorkflowService implements IWorkflowService {
     private repository: IWorkflowRepository;
 
-    constructor(repository: IWorkflowRepository) {
+    constructor(repository: IWorkflowRepository = new MockWorkflowRepository()) {
         this.repository = repository;
     }
 
-    async createWorkflow(command: Contracts.CreateWorkflowCommand): Promise<Workflow> {
+    async createWorkflow(command: Contracts.ICreateWorkflowCommand): Promise<Workflow> {
         const workflow = new Workflow({
             name: command.name,
             description: command.description,
@@ -46,7 +46,7 @@ export class MockWorkflowService implements IWorkflowService {
         return workflow;
     }
 
-    async updateWorkflow(command: Contracts.UpdateWorkflowCommand): Promise<Workflow> {
+    async updateWorkflow(command: Contracts.IUpdateWorkflowCommand): Promise<Workflow> {
         const workflow = await this.repository.findById(
             new GlobalIdentifier(command.workflowId)
         );
@@ -59,7 +59,7 @@ export class MockWorkflowService implements IWorkflowService {
         return workflow;
     }
 
-    async activateWorkflow(command: Contracts.ActivateWorkflowCommand): Promise<Workflow> {
+    async activateWorkflow(command: Contracts.IActivateWorkflowCommand): Promise<Workflow> {
         const workflow = await this.repository.findById(
             new GlobalIdentifier(command.workflowId)
         );
@@ -72,7 +72,7 @@ export class MockWorkflowService implements IWorkflowService {
         return workflow;
     }
 
-    async pauseWorkflow(command: Contracts.PauseWorkflowCommand): Promise<Workflow> {
+    async pauseWorkflow(command: Contracts.IPauseWorkflowCommand): Promise<Workflow> {
         const workflow = await this.repository.findById(
             new GlobalIdentifier(command.workflowId)
         );
@@ -85,7 +85,7 @@ export class MockWorkflowService implements IWorkflowService {
         return workflow;
     }
 
-    async archiveWorkflow(command: Contracts.ArchiveWorkflowCommand): Promise<Workflow> {
+    async archiveWorkflow(command: Contracts.IArchiveWorkflowCommand): Promise<Workflow> {
         const workflow = await this.repository.findById(
             new GlobalIdentifier(command.workflowId)
         );
@@ -98,7 +98,7 @@ export class MockWorkflowService implements IWorkflowService {
         return workflow;
     }
 
-    async getWorkflowDetails(query: Contracts.GetWorkflowDetailsQuery): Promise<Workflow> {
+    async getWorkflowDetails(query: Contracts.IGetWorkflowDetailsQuery): Promise<Workflow> {
         const workflow = await this.repository.findById(
             new GlobalIdentifier(query.workflowId)
         );
@@ -124,7 +124,7 @@ export class MockWorkflowService implements IWorkflowService {
         return workflow.activities;
     }
 
-    async updateWorkflowActivities(command: Contracts.UpdateWorkflowActivitiesCommand): Promise<Workflow> {
+    async updateWorkflowActivities(command: Contracts.IUpdateWorkflowActivitiesCommand): Promise<Workflow> {
         const workflow = await this.repository.findById(new GlobalIdentifier(command.workflowId));
         if (!workflow) {
             throw new Error(`Workflow with ID ${command.workflowId} not found.`);

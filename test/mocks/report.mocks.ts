@@ -70,11 +70,11 @@ export class MockReportRepository implements IReportRepository {
 export class MockReportService implements IReportService {
     private repository: IReportRepository;
 
-    constructor(repository: IReportRepository) {
+    constructor(repository: IReportRepository = new MockReportRepository()) {
         this.repository = repository;
     }
 
-    async createReport(command: Contracts.CreateReportCommand): Promise<Report> {
+    async createReport(command: Contracts.ICreateReportCommand): Promise<Report> {
         const report = new Report({
             title: command.title,
             description: command.description,
@@ -89,7 +89,7 @@ export class MockReportService implements IReportService {
         return report;
     }
 
-    async deleteReport(command: Contracts.DeleteReportCommand): Promise<void> {
+    async deleteReport(command: Contracts.IDeleteReportCommand): Promise<void> {
         const report = await this.repository.findById(new GlobalIdentifier(command.reportId));
         if (!report) {
             throw new Error(`Report with ID ${command.reportId} not found.`);
@@ -140,7 +140,7 @@ export class MockReportService implements IReportService {
         return this.repository.findByStatus(EnumUtils.fromName(ReportStatus, status));
     }
 
-    async getReportDetails(query: Contracts.GetReportDetailsQuery): Promise<Report> {
+    async getReportDetails(query: Contracts.IGetReportDetailsQuery): Promise<Report> {
         const report = await this.repository.findById(new GlobalIdentifier(query.reportId));
         if (!report) {
             throw new Error(`Report with ID ${query.reportId} not found.`);
@@ -149,7 +149,7 @@ export class MockReportService implements IReportService {
         return report;
     }
 
-    async listReports(query: Contracts.ListReportsQuery): Promise<Report[]> {
+    async listReports(query: Contracts.IListReportsQuery): Promise<Report[]> {
         const filter = query.filter || {};
         const type = filter.type ? EnumUtils.fromName(ReportType, filter.type) : undefined;
         const status = filter.status ? EnumUtils.fromName(ReportStatus, filter.status) : undefined;

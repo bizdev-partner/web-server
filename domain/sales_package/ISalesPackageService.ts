@@ -8,39 +8,39 @@ export interface ISalesPackageService {
      * @param command The command containing the details to create a sales package.
      * @returns The created sales package.
      */
-    createPackage(command: Contracts.CreatePackageCommand): Promise<SalesPackage>;
+    createPackage(command: Contracts.ICreatePackageCommand): Promise<SalesPackage>;
 
     /**
      * Updates an existing sales package's details and propagates changes as needed.
      * @param command The command containing the package ID and updated fields.
      * @returns The updated sales package.
      */
-    updatePackage(command: Contracts.UpdatePackageCommand): Promise<SalesPackage>;
+    updatePackage(command: Contracts.IUpdatePackageCommand): Promise<SalesPackage>;
 
     /**
      * Adds feedback to a specific sales package.
      * @param command The command containing the package ID and feedback note.
      * @returns The updated feedback list.
      */
-    addFeedback(command: Contracts.AddFeedbackCommand): Promise<Note[]>;
+    addFeedback(command: Contracts.IAddFeedbackCommand): Promise<Note[]>;
 
     /**
      * Deletes a sales package.
      * @param command The command containing the package ID to delete.
      */
-    deletePackage(command: Contracts.DeletePackageCommand): Promise<void>;
+    deletePackage(command: Contracts.IDeletePackageCommand): Promise<void>;
 
     /**
      * Retrieves detailed information about a specific sales package.
      * @param query The query containing the package ID.
      * @returns The detailed sales package.
      */
-    getPackageDetails(query: Contracts.GetPackageDetailsQuery): Promise<SalesPackage>;
+    getPackageDetails(query: Contracts.IGetPackageDetailsQuery): Promise<SalesPackage>;
 
     /**
      * Lists sales packages based on the provided filter.
      * @param query The query containing the filter criteria.
      * @returns An array of sales packages matching the filter.
      */
-    listPackages(query: Contracts.ListPackagesQuery): Promise<SalesPackage[]>;
+    listPackages(query: Contracts.IListPackagesQuery): Promise<SalesPackage[]>;
 }

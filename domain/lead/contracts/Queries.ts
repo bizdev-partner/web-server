@@ -25,3 +25,7 @@ export class ListLeadsQuery extends Model {
         this.tags = tags;
     }
 }
+
+export type IGetLeadDetailsQuery = Pick<GetLeadDetailsQuery, "leadId">;
+
+export type IListLeadsQuery = Pick<ListLeadsQuery, "status" | "tags">;

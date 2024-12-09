@@ -1,12 +1,4 @@
-import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    Param,
-    Patch,
-    Post,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { WorkflowService } from '../services/workflow.service';
 import * as Contracts from '@domain/workflow/contracts';
 import { GlobalIdentifier } from '@vannatta-software/ts-domain';
@@ -16,58 +8,48 @@ export class WorkflowController {
     constructor(private readonly workflowService: WorkflowService) {}
 
     @Post()
-    async createWorkflow(@Body() command: Contracts.CreateWorkflowCommand) {
+    async createWorkflow(@Body() command: Contracts.ICreateWorkflowCommand) {
         return this.workflowService.createWorkflow(command);
     }
 
     @Patch(':id')
     async updateWorkflow(
         @Param('id') id: string,
-        @Body() command: Contracts.UpdateWorkflowCommand
+        @Body() command: Contracts.IUpdateWorkflowCommand
     ) {
-        command.workflowId = id;
-        return this.workflowService.updateWorkflow(command);
+        return this.workflowService.updateWorkflow({ ...command, workflowId: id });
     }
 
     @Patch(':id/activate')
     async activateWorkflow(@Param('id') id: string) {
-        const command = new Contracts.ActivateWorkflowCommand();
-        command.workflowId = id;
-        return this.workflowService.activateWorkflow(command);
+        return this.workflowService.activateWorkflow({ workflowId: id });
     }
 
     @Patch(':id/pause')
     async pauseWorkflow(@Param('id') id: string) {
-        const command = new Contracts.PauseWorkflowCommand();
-        command.workflowId = id;
-        return this.workflowService.pauseWorkflow(command);
+        return this.workflowService.pauseWorkflow({ workflowId: id });
     }
 
     @Patch(':id/archive')
     async archiveWorkflow(@Param('id') id: string) {
-        const command = new Contracts.ArchiveWorkflowCommand();
-        command.workflowId = id;
-        return this.workflowService.archiveWorkflow(command);
+        return this.workflowService.archiveWorkflow({ workflowId: id });
     }
 
     @Patch(':id/activities')
     async updateWorkflowActivities(
         @Param('id') id: string,
-        @Body() command: Contracts.UpdateWorkflowActivitiesCommand
+        @Body() command: Contracts.IUpdateWorkflowActivitiesCommand
     ) {
-        command.workflowId = id;
-        return this.workflowService.updateWorkflowActivities(command);
+        return this.workflowService.updateWorkflowActivities({ ...command, workflowId: id });
     }
 
     @Get(':id')
     async getWorkflowDetails(@Param('id') id: string) {
-        const query = new Contracts.GetWorkflowDetailsQuery(id);
-        return this.workflowService.getWorkflowDetails(query);
+        return this.workflowService.getWorkflowDetails({ workflowId: id });
     }
 
     @Get()
-    async listWorkflows() {
-        const query = new Contracts.ListWorkflowsQuery();
+    async listWorkflows(@Body() query: Contracts.IListWorkflowsQuery) {
         return this.workflowService.listWorkflows(query);
     }
 

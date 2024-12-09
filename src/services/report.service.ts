@@ -11,7 +11,7 @@ import { EnumUtils } from '@domain/common/EnumUtils';
 export class ReportService implements IReportService {
     constructor(private readonly reports: ReportRepository) {}
 
-    async createReport(command: Contracts.CreateReportCommand): Promise<Report> {
+    async createReport(command: Contracts.ICreateReportCommand): Promise<Report> {
         const report = new Report({
             title: command.title,
             description: command.description,
@@ -26,7 +26,7 @@ export class ReportService implements IReportService {
         return report;
     }
 
-    async deleteReport(command: Contracts.DeleteReportCommand): Promise<void> {
+    async deleteReport(command: Contracts.IDeleteReportCommand): Promise<void> {
         const report = await this.reports.findById(command.reportId);
         if (!report) throw new Error(`Report with ID ${command.reportId} not found`);
         await this.reports.delete(report);
@@ -69,13 +69,13 @@ export class ReportService implements IReportService {
         return this.reports.findByStatus(reportStatus);
     }
 
-    async getReportDetails(query: Contracts.GetReportDetailsQuery): Promise<Report> {
+    async getReportDetails(query: Contracts.IGetReportDetailsQuery): Promise<Report> {
         const report = await this.reports.findById(query.reportId);
         if (!report) throw new Error(`Report with ID ${query.reportId} not found`);
         return report;
     }
 
-    async listReports(query: Contracts.ListReportsQuery): Promise<Report[]> {
+    async listReports(query: Contracts.IListReportsQuery): Promise<Report[]> {
         const filter = query.filter || {};
         const type = filter.type ? EnumUtils.fromName(ReportType, filter.type) : undefined;
         const status = filter.status ? EnumUtils.fromName(ReportStatus, filter.status) : undefined;

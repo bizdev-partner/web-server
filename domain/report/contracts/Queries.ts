@@ -11,3 +11,7 @@ export class ListReportsQuery extends Model {
     @Field("Filter", FieldType.TextArea)
     public filter?: Record<string, any>;
 }
+
+export type IGetReportDetailsQuery = Pick<GetReportDetailsQuery, "reportId">;
+
+export type IListReportsQuery = Pick<ListReportsQuery, "filter">;

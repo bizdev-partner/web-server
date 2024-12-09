@@ -7,7 +7,7 @@ import * as Contracts from '@domain/lead/contracts';
 export class LeadService {
     constructor(private readonly leads: LeadRepository) {}
 
-    async createLead(command: Contracts.CreateLeadCommand): Promise<Lead> {
+    async createLead(command: Contracts.ICreateLeadCommand): Promise<Lead> {
         const lead = new Lead({
             name: new Name({ firstName: command.firstName, lastName: command.lastName }),
             contactInfo: new ContactInfo({ email: command.email, phone: command.phone }),
@@ -20,7 +20,7 @@ export class LeadService {
         return lead;
     }
 
-    async updateLead(command: Contracts.UpdateLeadCommand): Promise<Lead> {
+    async updateLead(command: Contracts.IUpdateLeadCommand): Promise<Lead> {
         const lead = await this.leads.findById(command.leadId);
         if (!lead) throw new Error(`Lead with ID ${command.leadId} not found.`);
 
@@ -46,7 +46,7 @@ export class LeadService {
         return lead;
     }
 
-    async updateLeadStatus(command: Contracts.UpdateLeadStatusCommand): Promise<Lead> {
+    async updateLeadStatus(command: Contracts.IUpdateLeadStatusCommand): Promise<Lead> {
         const lead = await this.leads.findById(command.leadId);
         if (!lead) throw new Error(`Lead with ID ${command.leadId} not found.`);
 
@@ -55,13 +55,13 @@ export class LeadService {
         return lead;
     }
 
-    async getLeadDetails(query: Contracts.GetLeadDetailsQuery): Promise<Lead> {
+    async getLeadDetails(query: Contracts.IGetLeadDetailsQuery): Promise<Lead> {
         const lead = await this.leads.findById(query.leadId);
         if (!lead) throw new Error(`Lead with ID ${query.leadId} not found.`);
         return lead;
     }
 
-    async listLeads(query: Contracts.ListLeadsQuery): Promise<Lead[]> {
+    async listLeads(query: Contracts.IListLeadsQuery): Promise<Lead[]> {
         let leads = await this.leads.findAll();
         if (query.status) leads = leads.filter((lead) => lead.status.equals(LeadStatus.fromName(query.status)));
         if (query.tags) leads = leads.filter((lead) => query.tags.some((tag) => lead.tags.includes(tag)));

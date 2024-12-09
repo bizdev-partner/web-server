@@ -12,13 +12,13 @@ import { ActivityStatus } from '@domain/activity';
 export class CampaignService implements ICampaignService {
     constructor(private readonly campaigns: CampaignRepository) {}
 
-    async getCampaignDetails(query: Contracts.GetCampaignDetailsQuery): Promise<Campaign> {
+    async getCampaignDetails(query: Contracts.IGetCampaignDetailsQuery): Promise<Campaign> {
         const campaign = await this.campaigns.findById(query.campaignId);
         if (!campaign) throw new Error('Campaign not found');
         return campaign;
     }
 
-    async launchCampaign(command: Contracts.LaunchCampaignCommand): Promise<Campaign> {
+    async launchCampaign(command: Contracts.ILaunchCampaignCommand): Promise<Campaign> {
         const campaign = await this.campaigns.findById(command.campaignId);
         if (!campaign) throw new Error('Campaign not found');
 
@@ -27,28 +27,28 @@ export class CampaignService implements ICampaignService {
         return campaign;
     }
 
-    async pauseCampaign(command: Contracts.PauseCampaignCommand): Promise<Campaign> {
-        const campaign = await this.getCampaignDetails(new Contracts.GetCampaignDetailsQuery(command.campaignId));
+    async pauseCampaign(command: Contracts.IPauseCampaignCommand): Promise<Campaign> {
+        const campaign = await this.getCampaignDetails(command);
         campaign.status = CampaignStatus.Paused;
         await this.campaigns.update(campaign);
         return campaign;
     }
 
-    async resumeCampaign(command: Contracts.ResumeCampaignCommand): Promise<Campaign> {
-        const campaign = await this.getCampaignDetails(new Contracts.GetCampaignDetailsQuery(command.campaignId));
+    async resumeCampaign(command: Contracts.IResumeCampaignCommand): Promise<Campaign> {
+        const campaign = await this.getCampaignDetails(command);
         campaign.status = CampaignStatus.Active;
         await this.campaigns.update(campaign);
         return campaign;
     }
 
-    async completeCampaign(command: Contracts.CompleteCampaignCommand): Promise<Campaign> {
-        const campaign = await this.getCampaignDetails(new Contracts.GetCampaignDetailsQuery(command.campaignId));
+    async completeCampaign(command: Contracts.ICompleteCampaignCommand): Promise<Campaign> {
+        const campaign = await this.getCampaignDetails(command);
         campaign.status = CampaignStatus.Completed;
         await this.campaigns.update(campaign);
         return campaign;
     }
 
-    async listCampaigns(query: Contracts.ListCampaignsQuery): Promise<Campaign[]> {
+    async listCampaigns(query: Contracts.IListCampaignsQuery): Promise<Campaign[]> {
         return this.campaigns.findByStatus(query.status ?? CampaignStatus.Active.name);
     }
 
