@@ -19,11 +19,11 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Configure npm authentication
-        run: |
-          echo "@vannatta-software:registry=https://npm.pkg.github.com" >> ~/.npmrc
-          echo "@bizdev-partner:registry=https://npm.pkg.github.com" >> ~/.npmrc
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.DEPLOY_TOKEN }}" >> ~/.npmrc
+      # - name: Configure npm authentication
+      #   run: |
+      #     echo "@vannatta-software:registry=https://npm.pkg.github.com" >> ~/.npmrc
+      #     echo "@bizdev-partner:registry=https://npm.pkg.github.com" >> ~/.npmrc
+      #     echo "//npm.pkg.github.com/:_authToken=${{ secrets.DEPLOY_TOKEN }}" >> ~/.npmrc
 
       - name: Install dependencies
         run: |
