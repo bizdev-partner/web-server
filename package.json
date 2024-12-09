@@ -1,6 +1,6 @@
 {
   "name": "@bizdev-partner/domain",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "author": "",
   "main": "dist/domain/index.js",
