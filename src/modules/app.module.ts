@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ServeStaticModule } from '@nestjs/serve-static';
@@ -6,17 +7,15 @@ import { join } from 'path';
 import { AppController } from 'src/controllers/app.controller';
 import { EventHandlersModule } from 'src/modules/event.module';
 import { EventPublisherService } from 'src/services/eventPublisher.service';
-import { NotificationService } from 'src/services/notification.service';
-import { ExampleModule } from './example.module';
-import { ConfigModule } from '@nestjs/config';
-import { NotificationGateway } from 'src/gateways/notification.gateway';
-import { NotificationModule } from './notification.module';
 import { ActivityModule } from './activity.module';
-import { WorkflowModule } from './workflow.module';
-import { LeadModule } from './lead.module';
-import { SalesPackageModule } from './sales_package.module';
 import { CampaignModule } from './campaign.module';
 import { ClientModule } from './client.module';
+import { ExampleModule } from './example.module';
+import { LeadModule } from './lead.module';
+import { NotificationModule } from './notification.module';
+import { ReportModule } from './report.module';
+import { SalesPackageModule } from './sales_package.module';
+import { WorkflowModule } from './workflow.module';
 
 const appRoot = join(__dirname, '..', '..', '..')
 
@@ -35,6 +34,7 @@ const appRoot = join(__dirname, '..', '..', '..')
     ActivityModule,
     LeadModule,
     ClientModule,
+    ReportModule,
     WorkflowModule,
     SalesPackageModule,
     CampaignModule,
