@@ -43,7 +43,7 @@ class MockActivityService implements IActivityService {
         command: Contracts.ScheduleActivityCommand
     ): Promise<Activity> {
         const activity = new Activity({
-            type: command.type,
+            type: ActivityType.fromName(command.type),
             priority: PriorityType.fromName(command.priority),
             status: ActivityStatus.Open,
             scheduledDate: command.scheduledDate,

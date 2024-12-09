@@ -18,9 +18,7 @@ describe("Activity Domain", () => {
         const scheduleDate = new Date();
         const command = new Contracts.ScheduleActivityCommand();
 
-        expect(new UniqueIdentifier({ value: "lead-1"}).value).toEqual("lead-1")
-
-        command.type = ActivityType.EmailOutreach;
+        command.type = ActivityType.EmailOutreach.name;
         command.priority = PriorityType.Medium.name;
         command.scheduledDate = scheduleDate;
         command.leadId = "lead-1";
