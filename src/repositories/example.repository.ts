@@ -1,4 +1,4 @@
-import { Example } from '../../domain';
+import { Example } from '@domain/example';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';

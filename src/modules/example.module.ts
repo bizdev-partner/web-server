@@ -4,7 +4,7 @@ import { EventPublisherService } from '../services/eventPublisher.service';
 import { ExampleService } from '../services/example.service';
 import { ExampleController } from 'src/controllers/example.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Example } from '@domain/index';
+import { Example } from '@domain/example/index';
 import { MongoSchema } from 'src/schemas/mongo.schema';
 
 @Module({

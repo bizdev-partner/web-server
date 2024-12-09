@@ -3,6 +3,7 @@ import { Schema, View, ViewType } from "@vannatta-software/ts-core";
 import { ExampleMetadata } from "./Metadata";
 import { ExampleType } from "./Type";
 import { ExampleCreatedEvent, ExampleDeletedEvent, ExampleMetadataUpdatedEvent, ExampleTypeChangedEvent } from "./contracts";
+import { EnumUtils } from "@domain/common/EnumUtils";
 
 export class Example extends AggregateRoot {
     @Schema({ type: UniqueIdentifier, embedded: true  })
@@ -13,7 +14,7 @@ export class Example extends AggregateRoot {
     @View("Metadata", ViewType.Embedded)
     public metadata: ExampleMetadata;
 
-    @Schema({ type: ExampleType, enumeration: true })
+    @Schema({ type: ExampleType, enum: EnumUtils.names(ExampleType) })
     @View("Type", ViewType.Enumeration)
     public type: ExampleType;
 

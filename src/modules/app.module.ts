@@ -11,6 +11,7 @@ import { ExampleModule } from './example.module';
 import { ConfigModule } from '@nestjs/config';
 import { NotificationGateway } from 'src/gateways/notification.gateway';
 import { NotificationModule } from './notification.module';
+import { ActivityModule } from './activity.module';
 
 const appRoot = join(__dirname, '..', '..', '..')
 
@@ -26,6 +27,7 @@ const appRoot = join(__dirname, '..', '..', '..')
     EventEmitterModule.forRoot(),
     NotificationModule,
     ExampleModule,
+    ActivityModule,
     EventHandlersModule
   ],
   controllers: [AppController],

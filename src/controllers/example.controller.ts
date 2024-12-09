@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from '@nestjs/common';
 import { ExampleService } from '../services/example.service';
-import { Contracts } from '@domain/index';
+import { Contracts } from '@domain/example/index';
 
 @Controller('examples')
 export class ExampleController {

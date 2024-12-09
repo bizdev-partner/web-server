@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { EventHandler, HandleEvent } from 'src/services/eventPublisher.service';
 import { NotificationService } from 'src/services/notification.service';
-import { Contracts } from "@domain/index";
+import { Contracts } from '@domain/example/index';
 
 // ExampleCreatedEvent
 

@@ -5,6 +5,7 @@ module.exports = {
   setupFiles: ['<rootDir>/test/setup.spec.ts'],
   testPathIgnorePatterns: [
       "<rootDir>/test/helpers",
+      "<rootDir>/test/mocks",
       "<rootDir>/test/setup.spec.ts",
       "<rootDir>/node_modules/",
       "<rootDir>/dist/",
