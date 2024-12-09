@@ -14,6 +14,7 @@ import { NotificationModule } from './notification.module';
 import { ActivityModule } from './activity.module';
 import { WorkflowModule } from './workflow.module';
 import { LeadModule } from './lead.module';
+import { SalesPackageModule } from './sales_package.module';
 
 const appRoot = join(__dirname, '..', '..', '..')
 
@@ -32,6 +33,7 @@ const appRoot = join(__dirname, '..', '..', '..')
     ActivityModule,
     LeadModule,
     WorkflowModule,
+    SalesPackageModule,
     EventHandlersModule
   ],
   controllers: [AppController],
