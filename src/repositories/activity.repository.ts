@@ -8,7 +8,6 @@ import { GlobalIdentifier, UniqueIdentifier } from '@vannatta-software/ts-domain
 import { ActivityType, ActivityStatus, PriorityType } from '@domain/activity/ActivityTypes';
 import { ActivityOutcome } from '@domain/activity/ActivityOutcome';
 import { Note } from '@domain/common/Note';
-import { extractRelevantSchema } from 'src/schemas/mongo.schema';
 
 @Injectable()
 export class ActivityRepository extends BaseRepository<Activity> {
@@ -40,6 +39,7 @@ export class ActivityRepository extends BaseRepository<Activity> {
      * @returns The mapped `Activity` domain entity.
      */
     private toDomain(doc: any): Activity {
+
         return new Activity({
             id: new GlobalIdentifier(doc._id),
             type: ActivityType.fromName(doc.type),
