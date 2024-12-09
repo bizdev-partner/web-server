@@ -21,7 +21,9 @@ jobs:
 
       - name: Configure npm authentication
         run: |
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.DEPLOY_TOKEN }}" >> .npmrc
+          echo "@vannatta-software:registry=https://npm.pkg.github.com" >> ~/.npmrc
+          echo "@bizdev-partner:registry=https://npm.pkg.github.com" >> ~/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.DEPLOY_TOKEN }}" >> ~/.npmrc
 
       - name: Install dependencies
         run: |
