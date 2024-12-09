@@ -13,6 +13,7 @@ import { NotificationGateway } from 'src/gateways/notification.gateway';
 import { NotificationModule } from './notification.module';
 import { ActivityModule } from './activity.module';
 import { WorkflowModule } from './workflow.module';
+import { LeadModule } from './lead.module';
 
 const appRoot = join(__dirname, '..', '..', '..')
 
@@ -29,6 +30,7 @@ const appRoot = join(__dirname, '..', '..', '..')
     NotificationModule,
     ExampleModule,
     ActivityModule,
+    LeadModule,
     WorkflowModule,
     EventHandlersModule
   ],
