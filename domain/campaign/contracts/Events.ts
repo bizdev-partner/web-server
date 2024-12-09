@@ -40,7 +40,7 @@ export class CampaignCompleted implements IDomainEvent {
 }
 
 // ActivityScheduled Event
-export class ActivityScheduled implements IDomainEvent {
+export class CampaignActivityScheduled implements IDomainEvent {
     public readonly dateTimeOccurred: Date = new Date();
 
     constructor(
@@ -50,7 +50,7 @@ export class ActivityScheduled implements IDomainEvent {
 }
 
 // ActivityCompleted Event
-export class ActivityCompleted implements IDomainEvent {
+export class CampaignActivityCompleted implements IDomainEvent {
     public readonly dateTimeOccurred: Date = new Date();
 
     constructor(
@@ -61,14 +61,14 @@ export class ActivityCompleted implements IDomainEvent {
 }
 
 // ActivityCancelled Event
-export class ActivityCancelled implements IDomainEvent {
+export class CampaignActivityCancelled implements IDomainEvent {
     public readonly dateTimeOccurred: Date = new Date();
 
     constructor(public readonly activityId: string) {}
 }
 
 // ActivityRescheduled Event
-export class ActivityRescheduled implements IDomainEvent {
+export class CampaignActivityRescheduled implements IDomainEvent {
     public readonly dateTimeOccurred: Date = new Date();
 
     constructor(

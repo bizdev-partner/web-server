@@ -42,12 +42,12 @@ export class CampaignActivity extends Entity {
             throw new Error("Cannot create campaign activity without required fields.");
         }
         this.status = ActivityStatus.Open;
-        this.addDomainEvent(new Contracts.ActivityScheduled(this.id.value, this.scheduledDate));
+        this.addDomainEvent(new Contracts.CampaignActivityScheduled(this.id.value, this.scheduledDate));
     }
 
     public delete(): void {
         this.status = ActivityStatus.Cancelled;
-        this.addDomainEvent(new Contracts.ActivityCancelled(this.id.value));
+        this.addDomainEvent(new Contracts.CampaignActivityCancelled(this.id.value));
     }
 
     public complete(outcome: string): void {
@@ -57,7 +57,7 @@ export class CampaignActivity extends Entity {
         this.completionDate = new Date();
         this.status = ActivityStatus.Complete;
         this.outcome = outcome;
-        this.addDomainEvent(new Contracts.ActivityCompleted(this.id.value, outcome, this.completionDate));
+        this.addDomainEvent(new Contracts.CampaignActivityCompleted(this.id.value, outcome, this.completionDate));
     }
 
     public cancel(): void {
@@ -65,6 +65,6 @@ export class CampaignActivity extends Entity {
             throw new Error("Cannot cancel a completed activity.");
         }
         this.status = ActivityStatus.Cancelled;
-        this.addDomainEvent(new Contracts.ActivityCancelled(this.id.value));
+        this.addDomainEvent(new Contracts.CampaignActivityCancelled(this.id.value));
     }
 }
