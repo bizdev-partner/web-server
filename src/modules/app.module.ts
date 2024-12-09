@@ -16,6 +16,7 @@ import { WorkflowModule } from './workflow.module';
 import { LeadModule } from './lead.module';
 import { SalesPackageModule } from './sales_package.module';
 import { CampaignModule } from './campaign.module';
+import { ClientModule } from './client.module';
 
 const appRoot = join(__dirname, '..', '..', '..')
 
@@ -33,6 +34,7 @@ const appRoot = join(__dirname, '..', '..', '..')
     ExampleModule,
     ActivityModule,
     LeadModule,
+    ClientModule,
     WorkflowModule,
     SalesPackageModule,
     CampaignModule,

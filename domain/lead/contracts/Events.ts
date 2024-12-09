@@ -1,5 +1,5 @@
 import { GlobalIdentifier, IDomainEvent } from "@vannatta-software/ts-domain";
-import { Name } from "../Name";
+import { Name } from "../../common/Name";
 import { LeadStatus } from "../LeadStatus";
 import { UniqueIdentifier } from "@vannatta-software/ts-domain";
 

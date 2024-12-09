@@ -1,7 +1,7 @@
 import { Lead } from "@domain/lead/Lead";
 import { LeadStatus } from "@domain/lead/LeadStatus";
-import { Name } from "@domain/lead/Name";
-import { ContactInfo } from "@domain/lead/ContactInfo";
+import { Name } from "@domain/common/Name";
+import { ContactInfo } from "@domain/common/ContactInfo";
 import { Note } from "@domain/common/Note";
 import { GlobalIdentifier } from "@vannatta-software/ts-domain";
 import * as Contracts from "@domain/lead/contracts";

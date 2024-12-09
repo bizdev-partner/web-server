@@ -1,7 +1,7 @@
 import { AggregateRoot, UniqueIdentifier } from "@vannatta-software/ts-domain";
 import { LeadStatus } from "./LeadStatus";
-import { ContactInfo } from "./ContactInfo";
-import { Name } from "./Name";
+import { ContactInfo } from "../common/ContactInfo";
+import { Name } from "../common/Name";
 import { Note } from "../common/Note";
 import { Schema } from "@vannatta-software/ts-core";
 import { LeadCreated, LeadUpdated, LeadStatusUpdated, LeadDeleted } from "./contracts";
