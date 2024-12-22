@@ -11,6 +11,9 @@ export class Lead extends AggregateRoot {
     @Schema({ type: Name, embedded: true })
     public name: Name;
 
+    @Schema({ type: UniqueIdentifier, embedded: true })
+    public clientId: UniqueIdentifier;
+
     @Schema({ type: ContactInfo, embedded: true })
     public contactInfo: ContactInfo;
 

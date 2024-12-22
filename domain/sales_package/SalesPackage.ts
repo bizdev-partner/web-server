@@ -24,6 +24,9 @@ export class SalesPackage extends AggregateRoot {
     @Schema({ type: Array, items: Note, embedded: true, optional: true })
     public feedback: Note[];
 
+    @Schema({ type: UniqueIdentifier, embedded: true  })
+    public childPackages: UniqueIdentifier[]
+
     constructor(salesPackage?: Partial<SalesPackage>) {
         super(salesPackage);
         this.name = salesPackage?.name ?? "";

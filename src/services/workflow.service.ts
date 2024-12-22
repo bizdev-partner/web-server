@@ -41,6 +41,7 @@ export class WorkflowService {
         }
 
         Object.assign(workflow, command.updatedFields);
+
         await this.repository.update(workflow);
         return workflow;
     }
