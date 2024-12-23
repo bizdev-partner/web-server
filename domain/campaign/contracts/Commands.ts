@@ -1,18 +1,32 @@
+import { Field, FieldType } from "@vannatta-software/ts-core";
 import { Model, Validation } from "@vannatta-software/ts-domain";
-import { FieldType, Field } from "@vannatta-software/ts-core";//
-// Commands
-//
 
+// LaunchCampaignCommand - Behaving like a create command
 export class LaunchCampaignCommand extends Model {
     @Field("Campaign ID", FieldType.Text)
     @Validation({ required: true })
     public campaignId: string;
 
-    constructor(campaignId: string) {
-        super();
-        this.campaignId = campaignId;
-    }
+    @Field("Sales Package ID", FieldType.Text)
+    @Validation({ required: true })
+    public salesPackageId: string;
+
+    @Field("Workflow ID", FieldType.Text)
+    @Validation({ required: true })
+    public workflowId: string;
+
+    @Field("Target Leads", FieldType.Text)
+    public leads: string[];
+
+    @Field("Start Date", FieldType.Text)
+    @Validation({ required: true })
+    public startDate: Date;
+
+    @Field("End Date", FieldType.Text)
+    @Validation({ required: true })
+    public endDate: Date;
 }
+
 
 export class PauseCampaignCommand extends Model {
     @Field("Campaign ID", FieldType.Text)
@@ -57,7 +71,7 @@ export class CompleteCampaignCommand extends Model {
     }
 }
 
-export type ILaunchCampaignCommand = Pick<LaunchCampaignCommand, "campaignId">;
+export type ILaunchCampaignCommand = Pick<LaunchCampaignCommand, "campaignId" | "salesPackageId" | "workflowId" | "leads" | "startDate" | "endDate">;
 
 export type IPauseCampaignCommand = Pick<PauseCampaignCommand, "campaignId">;
 
