@@ -7,6 +7,10 @@ export class PriorityRules extends ValueObject {
 
     constructor(rules: Partial<PriorityRules>) {
         super()
+
+        this.pending = rules?.pending ?? 0;
+        this.due = rules?.due ?? 0;
+        this.overdue = rules?.overdue ?? 0;
     }
 
     protected *getAtomicValues(): IterableIterator<any> {
