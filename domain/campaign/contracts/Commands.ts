@@ -27,7 +27,6 @@ export class LaunchCampaignCommand extends Model {
     public endDate: Date;
 }
 
-
 export class PauseCampaignCommand extends Model {
     @Field("Campaign ID", FieldType.Text)
     @Validation({ required: true })

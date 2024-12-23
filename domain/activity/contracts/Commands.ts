@@ -2,6 +2,7 @@ import { Model, Validation } from "@vannatta-software/ts-domain";
 import { FieldType, Field } from "@vannatta-software/ts-core";
 import { ActivityType } from "../ActivityTypes";
 import { EnumUtils } from "@domain/common/EnumUtils";
+import { PriorityRules } from "../PriorityRules";
 
 export class ScheduleActivityCommand extends Model {
     @Field("Activity Type", FieldType.Select, EnumUtils.names(ActivityType))
@@ -12,6 +13,9 @@ export class ScheduleActivityCommand extends Model {
     @Validation({ required: true })
     public scheduledDate: Date;
 
+    @Field("Campaign ID", FieldType.Text)
+    public campaignId?: string;
+
     @Field("Lead ID", FieldType.Text)
     public leadId?: string;
 
@@ -21,11 +25,15 @@ export class ScheduleActivityCommand extends Model {
     @Field("Priority", FieldType.Text)
     @Validation({ required: true })
     public priority: string;
+
+    @Field("Rules", FieldType.TextArea)
+    @Validation({ required: true })
+    public rules: Partial<PriorityRules>
 }
 
 export type IScheduleActivityCommand = Pick<
     ScheduleActivityCommand,
-    "type" | "scheduledDate" | "leadId" | "notes" | "priority"
+    "type" | "scheduledDate" | "leadId" | "campaignId" | "notes" | "priority" | "rules"
 >;
 
 export class CompleteActivityCommand extends Model {
