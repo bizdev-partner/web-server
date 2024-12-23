@@ -1,7 +1,7 @@
 import { GlobalIdentifier } from "@vannatta-software/ts-domain";
 import { Campaign } from "./Campaign";
-import { CampaignActivity } from "./CampaignActivity";
 import * as Contracts from "./contracts";
+import { Activity } from "@domain/activity";
 
 export interface ICampaignService {
     /**
@@ -37,7 +37,7 @@ export interface ICampaignService {
      * @param activityId The unique identifier of the completed campaign activity.
      * @returns The updated campaign activity.
      */
-    trackActivityCompletion(activityId: GlobalIdentifier): Promise<CampaignActivity>;
+    trackActivityCompletion(activityId: GlobalIdentifier): Promise<Activity>;
 
     /**
      * Retrieves detailed information about a campaign.

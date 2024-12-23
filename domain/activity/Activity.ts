@@ -5,6 +5,7 @@ import * as Contracts from "./contracts";
 import { Schema } from "@vannatta-software/ts-core";
 import { ActivityOutcome } from "./ActivityOutcome";
 import { EnumUtils } from "@domain/common/EnumUtils";
+import { PriorityRules } from "./PriorityRules";
 
 export class Activity extends AggregateRoot {
     @Schema({ type: ActivityType, enum: EnumUtils.names(ActivityType)})
@@ -31,6 +32,12 @@ export class Activity extends AggregateRoot {
     @Schema({ type: UniqueIdentifier, optional: true, embedded: true })
     public leadId?: UniqueIdentifier;
 
+    @Schema({ type: UniqueIdentifier, optional: true, embedded: true })
+    public campaignId?: UniqueIdentifier;
+
+    @Schema({ type: PriorityRules, embedded: true})
+    public rules: PriorityRules;
+
     constructor(activity?: Partial<Activity>) {
         super(activity);
         this.type = activity?.type ?? ActivityType.EmailOutreach; // Default to Email Outreach
@@ -41,6 +48,8 @@ export class Activity extends AggregateRoot {
         this.completionDate = activity?.completionDate ?? undefined;
         this.notes = activity?.notes ?? [];
         this.leadId = activity?.leadId ?? undefined;
+        this.campaignId = activity?.campaignId ?? undefined;
+        this.rules = new PriorityRules(activity?.rules ?? {});
     }
 
     public create(): void {
@@ -72,6 +81,11 @@ export class Activity extends AggregateRoot {
     public reschedule(newDate: Date): void {
         this.scheduledDate = newDate;
         this.addDomainEvent(new Contracts.ActivityRescheduled(this.id.value, newDate));
+    }
+
+    public setRules(rules: Partial<PriorityRules>) {
+        this.rules = new PriorityRules({ ...this.rules, ...rules });
+        this.addDomainEvent(new Contracts.ActivityRulesChanged(this));
     }
 
     /**

@@ -1,11 +1,11 @@
 import { AggregateRoot, GlobalIdentifier, UniqueIdentifier } from "@vannatta-software/ts-domain";
 import { CampaignStatus } from "./CampaignStatus";
-import { CampaignActivity } from "./CampaignActivity";
 import { Note } from "../common/Note";
 import { Schema } from "@vannatta-software/ts-core";
 import { EnumUtils } from "@domain/common/EnumUtils";
 import { ActivityStatus } from "@domain/activity/ActivityTypes";
 import * as Contracts from "./contracts";
+import { Activity } from "@domain/activity";
 
 export class Campaign extends AggregateRoot {
     @Schema({ type: String })
@@ -20,8 +20,8 @@ export class Campaign extends AggregateRoot {
     @Schema({ type: UniqueIdentifier, embedded: true })
     public workflowId: UniqueIdentifier;
 
-    @Schema({ type: Array, items: CampaignActivity, embedded: true })
-    public campaignActivities: CampaignActivity[];
+    @Schema({ type: Array, items: Activity, embedded: true })
+    public activities: Activity[];
 
     @Schema({ type: Date })
     public startDate: Date;
@@ -49,7 +49,7 @@ export class Campaign extends AggregateRoot {
         this.salesPackageId = campaign?.salesPackageId!;
         this.targetLeads = campaign?.targetLeads ?? [];
         this.workflowId = campaign?.workflowId!;
-        this.campaignActivities = campaign?.campaignActivities ?? [];
+        this.activities = campaign?.activities ?? [];
         this.startDate = campaign?.startDate ?? new Date();
         this.endDate = campaign?.endDate ?? new Date();
         this.status = campaign?.status ?? CampaignStatus.Planned;
@@ -101,7 +101,7 @@ export class Campaign extends AggregateRoot {
         this.status = CampaignStatus.Completed;
         this.metrics = {
             ...this.metrics,
-            completedActivities: this.campaignActivities.filter((activity) => activity.status === ActivityStatus.Complete).length,
+            completedActivities: this.activities.filter((activity) => activity.status === ActivityStatus.Complete).length,
             ...metrics,
         };
         this.addDomainEvent(new Contracts.CampaignCompleted(this.id.value, this.metrics));

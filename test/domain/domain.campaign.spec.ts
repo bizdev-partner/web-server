@@ -1,6 +1,5 @@
-import { ActivityStatus } from "@domain/activity";
+import { Activity, ActivityStatus } from "@domain/activity";
 import { Campaign } from "@domain/campaign/Campaign";
-import { CampaignActivity } from "@domain/campaign/CampaignActivity";
 import { CampaignStatus } from "@domain/campaign/CampaignStatus";
 import { UniqueIdentifier } from "@vannatta-software/ts-domain";
 import { MockCampaignRepository, MockCampaignService } from "../mocks/campaign.mocks";
@@ -21,7 +20,7 @@ describe("Campaign Domain Tests", () => {
                 salesPackageId: new UniqueIdentifier({ value: "package-1" }),
                 targetLeads: [new UniqueIdentifier({ value: "lead-1" })],
                 workflowId: new UniqueIdentifier({ value: "workflow-1" }),
-                campaignActivities: [],
+                activities: [],
                 startDate: new Date(),
                 endDate: new Date(),
                 status: CampaignStatus.Planned,
@@ -45,7 +44,7 @@ describe("Campaign Domain Tests", () => {
                 salesPackageId: new UniqueIdentifier({ value: "package-1" }),
                 targetLeads: [],
                 workflowId: new UniqueIdentifier({ value: "workflow-1" }),
-                campaignActivities: [],
+                activities: [],
                 startDate: new Date(),
                 endDate: new Date(),
                 status: CampaignStatus.Active,
@@ -62,7 +61,7 @@ describe("Campaign Domain Tests", () => {
                 salesPackageId: new UniqueIdentifier({ value: "package-2" }),
                 targetLeads: [],
                 workflowId: new UniqueIdentifier({ value: "workflow-2" }),
-                campaignActivities: [],
+                activities: [],
                 startDate: new Date(),
                 endDate: new Date(),
                 status: CampaignStatus.Planned,
@@ -87,7 +86,7 @@ describe("Campaign Domain Tests", () => {
                 salesPackageId: new UniqueIdentifier({ value: "package-1" }),
                 targetLeads: [],
                 workflowId: new UniqueIdentifier({ value: "workflow-1" }),
-                campaignActivities: [],
+                activities: [],
                 startDate: new Date(),
                 endDate: new Date(),
                 status: CampaignStatus.Planned,
@@ -114,7 +113,7 @@ describe("Campaign Domain Tests", () => {
                 salesPackageId: new UniqueIdentifier({ value: "package-1" }),
                 targetLeads: [],
                 workflowId: new UniqueIdentifier({ value: "workflow-1" }),
-                campaignActivities: [],
+                activities: [],
                 startDate: new Date(),
                 endDate: new Date(),
                 status: CampaignStatus.Planned,
@@ -133,10 +132,8 @@ describe("Campaign Domain Tests", () => {
         });
 
         it("should track activity completion", async () => {
-            const campaignActivity = new CampaignActivity({
-                name: "Activity 1",
+            const campaignActivity = new Activity({
                 leadId: new UniqueIdentifier({ value: "lead-1" }),
-                workflowActivityId: new UniqueIdentifier({ value: "workflow-1" }),
                 scheduledDate: new Date(),
                 completionDate: null,
                 outcome: null,
@@ -148,7 +145,7 @@ describe("Campaign Domain Tests", () => {
                 salesPackageId: new UniqueIdentifier({ value: "package-1" }),
                 targetLeads: [],
                 workflowId: new UniqueIdentifier({ value: "workflow-1" }),
-                campaignActivities: [campaignActivity],
+                activities: [campaignActivity],
                 startDate: new Date(),
                 endDate: new Date(),
                 status: CampaignStatus.Active,
@@ -172,7 +169,7 @@ describe("Campaign Domain Tests", () => {
                 salesPackageId: new UniqueIdentifier({ value: "package-1" }),
                 targetLeads: [],
                 workflowId: new UniqueIdentifier({ value: "workflow-1" }),
-                campaignActivities: [],
+                activities: [],
                 startDate: new Date(),
                 endDate: new Date(),
                 status: CampaignStatus.Active,

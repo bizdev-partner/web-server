@@ -5,8 +5,7 @@ import * as Contracts from '@domain/campaign/contracts';
 import { CampaignRepository } from '../repositories/campaign.repository';
 import { CampaignStatus } from '@domain/campaign/CampaignStatus';
 import { GlobalIdentifier } from '@vannatta-software/ts-domain';
-import { CampaignActivity } from '@domain/campaign/CampaignActivity';
-import { ActivityStatus } from '@domain/activity';
+import { Activity, ActivityStatus } from '@domain/activity';
 
 @Injectable()
 export class CampaignService implements ICampaignService {
@@ -52,10 +51,10 @@ export class CampaignService implements ICampaignService {
         return this.campaigns.findByStatus(query.status ?? CampaignStatus.Active.name);
     }
 
-    async trackActivityCompletion(activityId: GlobalIdentifier): Promise<CampaignActivity> {
+    async trackActivityCompletion(activityId: GlobalIdentifier): Promise<Activity> {
         const campaigns = await this.campaigns.findByStatus(CampaignStatus.Active.name);
         const campaignActivity = campaigns
-            .flatMap((campaign) => campaign.campaignActivities)
+            .flatMap((campaign) => campaign.activities)
             .find((activity) => activity.id.equals(activityId));
     
         if (!campaignActivity) {
@@ -66,7 +65,7 @@ export class CampaignService implements ICampaignService {
     
         // Save the updated campaign containing the modified activity
         const parentCampaign = campaigns.find((campaign) =>
-            campaign.campaignActivities.some((activity) => activity.id.equals(activityId))
+            campaign.activities.some((activity) => activity.id.equals(activityId))
         );
         if (parentCampaign) {
             await this.campaigns.update(parentCampaign);

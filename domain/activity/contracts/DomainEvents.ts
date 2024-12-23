@@ -1,5 +1,6 @@
 import { IDomainEvent } from "@vannatta-software/ts-domain";
 import { ActivityOutcome } from "../ActivityOutcome";
+import { Activity } from "../Activity";
 
 export class ActivityScheduled implements IDomainEvent {
     dateTimeOccurred: Date = new Date();
@@ -34,3 +35,17 @@ export class ActivityRescheduled implements IDomainEvent {
         public readonly newScheduledDate: Date
     ) {}
 }
+
+export class ActivityRulesChanged implements IDomainEvent {
+    dateTimeOccurred: Date = new Date();
+    public readonly pending: number;
+    public readonly due: number;
+    public readonly overdue: number;
+
+    constructor(activity: Activity) {
+        this.pending = activity.rules.pending;
+        this.due = activity.rules.due;
+        this.overdue = activity.rules.overdue;
+    }
+}
+

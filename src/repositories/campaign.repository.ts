@@ -41,7 +41,7 @@ export class CampaignRepository extends BaseRepository<Campaign> {
             salesPackageId: new UniqueIdentifier({ value: doc.salesPackageId }),
             targetLeads: doc.targetLeads.map((lead: string) => new UniqueIdentifier({ value: lead })),
             workflowId: new UniqueIdentifier({ value: doc.workflowId }),
-            campaignActivities: doc.campaignActivities, // Assume mapping logic for activities is in the Campaign entity
+            activities: doc.campaignActivities, // Assume mapping logic for activities is in the Campaign entity
             startDate: new Date(doc.startDate),
             endDate: new Date(doc.endDate),
             status: doc.status,
