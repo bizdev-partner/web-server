@@ -8,10 +8,14 @@ export class ContactInfo extends ValueObject {
     @Schema({ type: String, optional: true })
     public phone?: string;
 
+    @Schema({ type: String, optional: true })
+    public company?: string;
+
     constructor(props: Partial<ContactInfo>) {
         super();
         this.email = props.email || undefined;
         this.phone = props.phone || undefined;
+        this.company = props.company || undefined;
     }
 
     /**

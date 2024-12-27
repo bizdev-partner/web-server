@@ -61,6 +61,17 @@ export class UpdateLeadStatusCommand extends Model {
     public newStatus: string;
 }
 
+export class AddLeadGroupCommand extends Model {
+    @Field("Lead ID", FieldType.Text)
+    @Validation({ required: true })
+    public leadId: string;
+
+    @Field("Group", FieldType.Text)
+    @Validation({ required: true })
+    public group: string;
+
+}
+
 export type ICreateLeadCommand = Pick<
     CreateLeadCommand,
     "firstName" | "lastName" | "email" | "phone" | "notes" | "tags"

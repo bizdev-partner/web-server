@@ -3,7 +3,7 @@ import { LeadStatus } from "./LeadStatus";
 import { ContactInfo } from "../common/ContactInfo";
 import { Name } from "../common/Name";
 import { Note } from "../common/Note";
-import { Schema } from "@vannatta-software/ts-core";
+import { ArrayUtils, Schema } from "@vannatta-software/ts-core";
 import { LeadCreated, LeadUpdated, LeadStatusUpdated, LeadDeleted } from "./contracts";
 import { EnumUtils } from "@domain/common/EnumUtils";
 
@@ -26,6 +26,9 @@ export class Lead extends AggregateRoot {
     @Schema({ type: Array, items: String, optional: true })
     public tags?: string[];
 
+    @Schema({ type: Array, items: String, optional: true })
+    public groups: string[];
+
     constructor(props: Partial<Lead>) {
         super(props);
         this.name = props.name!;
@@ -33,6 +36,7 @@ export class Lead extends AggregateRoot {
         this.status = props.status || LeadStatus.Known;
         this.notes = props.notes || [];
         this.tags = props.tags || [];
+        this.groups = props.groups || [];
         this.addDomainEvent(new LeadCreated(this.id, this.name, this.status));
     }
 
@@ -42,6 +46,12 @@ export class Lead extends AggregateRoot {
 
     public delete(): void {
         this.addDomainEvent(new LeadDeleted(this.id, this.name));
+    }
+
+    public addGroup(group: string): void {
+        this.groups.push(group);
+        this.groups = ArrayUtils.unique(this.groups);
+        
     }
 
     public updateStatus(newStatus: LeadStatus): void {
