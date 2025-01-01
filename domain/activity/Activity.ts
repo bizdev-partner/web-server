@@ -7,6 +7,7 @@ import { ActivityOutcome } from "./ActivityOutcome";
 import { EnumUtils } from "@domain/common/EnumUtils";
 import { PriorityRules } from "./PriorityRules";
 
+
 export class Activity extends AggregateRoot {
     @Schema({ type: ActivityType, enum: EnumUtils.names(ActivityType)})
     public type: ActivityType;

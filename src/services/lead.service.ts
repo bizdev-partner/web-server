@@ -50,7 +50,10 @@ export class LeadService {
         const lead = await this.leads.findById(command.leadId);
         if (!lead) throw new Error(`Lead with ID ${command.leadId} not found.`);
 
-        lead.status = LeadStatus.fromName(command.newStatus);
+        const status = LeadStatus.fromName(command.newStatus);
+
+        lead.updateStatus(status);
+
         await this.leads.update(lead);
         return lead;
     }

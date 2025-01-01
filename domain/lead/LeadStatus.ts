@@ -1,7 +1,7 @@
 import { EnumUtils } from "@domain/common/EnumUtils";
 import { Enumeration, ValueObject } from "@vannatta-software/ts-domain";
 
-export class LeadStatusMoment extends ValueObject{
+export class LeadStatusMoment extends ValueObject {
     public status: string;
     public date: Date;
 
