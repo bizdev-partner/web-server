@@ -21,6 +21,15 @@ export class ActivityCompleted implements IDomainEvent {
     ) {}
 }
 
+export class ActivityFlagged implements IDomainEvent {
+    dateTimeOccurred: Date = new Date();
+
+    constructor(
+        public readonly activityId: string,
+        public readonly flagged: boolean
+    ) {}
+}
+
 export class ActivityCancelled implements IDomainEvent {
     dateTimeOccurred: Date = new Date();
 

@@ -1,6 +1,7 @@
 import { Enumeration } from "@vannatta-software/ts-domain";
 import { ActivityOutcome } from "./ActivityOutcome";
 import { EnumUtils } from "@domain/common/EnumUtils";
+import { LeadStatus } from "@domain/lead";
 
 export class ActivityType extends Enumeration {
     public outcomes: ActivityOutcome[];
@@ -19,7 +20,7 @@ export class ActivityType extends Enumeration {
     public static readonly EmailOutreach = new ActivityType(
         { id: 1, name: "Email Outreach" }).addOutcomes(
         [
-            new ActivityOutcome({ description: "Email Sent", success: true }),
+            new ActivityOutcome({ description: "Email Sent", success: true, leadStatus: LeadStatus.Unqualified }),
             new ActivityOutcome({ description: "Bounced", success: false }),
             new ActivityOutcome({ description: "No Response", success: false }),
         ]
@@ -136,6 +137,11 @@ export class ActivityStatus extends Enumeration {
     public static InProgress = new ActivityStatus({ id: 2, name: "InProgress" });
     public static Complete = new ActivityStatus({ id: 3, name: "Complete" });
     public static Cancelled = new ActivityStatus({ id: 4, name: "Cancelled" });
+
+    // Derived,
+    // Open -> No outcome, not overdue
+    // Complete -> Outcome attached
+    // Overdue -> No outcome, rules.overdue > 0
 
     constructor(partial: Partial<ActivityStatus>) {
         super(partial)

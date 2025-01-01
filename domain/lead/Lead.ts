@@ -1,5 +1,5 @@
 import { AggregateRoot, UniqueIdentifier } from "@vannatta-software/ts-domain";
-import { LeadStatus } from "./LeadStatus";
+import { LeadStatusMoment, LeadStatus } from "./LeadStatus";
 import { ContactInfo } from "../common/ContactInfo";
 import { Name } from "../common/Name";
 import { Note } from "../common/Note";
@@ -29,6 +29,9 @@ export class Lead extends AggregateRoot {
     @Schema({ type: Array, items: String, optional: true })
     public groups: string[];
 
+    @Schema({ type: Array, items: String, embedded: true })
+    public statusHistory: LeadStatusMoment[];
+
     constructor(props: Partial<Lead>) {
         super(props);
         this.name = props.name!;
@@ -37,6 +40,7 @@ export class Lead extends AggregateRoot {
         this.notes = props.notes || [];
         this.tags = props.tags || [];
         this.groups = props.groups || [];
+        this.statusHistory = props.statusHistory || [];
         this.addDomainEvent(new LeadCreated(this.id, this.name, this.status));
     }
 
@@ -57,6 +61,7 @@ export class Lead extends AggregateRoot {
     public updateStatus(newStatus: LeadStatus): void {
         const oldStatus = this.status;
         this.status = newStatus;
+        this.statusHistory.push(new LeadStatusMoment(newStatus));
         this.addDomainEvent(new LeadStatusUpdated(this.id, oldStatus, newStatus));
     }
 

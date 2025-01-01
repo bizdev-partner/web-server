@@ -1,5 +1,21 @@
 import { EnumUtils } from "@domain/common/EnumUtils";
-import { Enumeration } from "@vannatta-software/ts-domain";
+import { Enumeration, ValueObject } from "@vannatta-software/ts-domain";
+
+export class LeadStatusMoment extends ValueObject{
+    public status: string;
+    public date: Date;
+
+    constructor(status: LeadStatus) {
+        super();
+        this.status = status.name;
+        this.date = new Date();
+    }
+
+    protected *getAtomicValues(): IterableIterator<any> {
+        yield this.status;
+        yield this.date.getTime();
+    }
+}
 
 export class LeadStatus extends Enumeration {
     public static readonly Known = new LeadStatus({ id: 1, name: "Known" });
@@ -7,6 +23,10 @@ export class LeadStatus extends Enumeration {
     public static readonly Unqualified = new LeadStatus({ id: 3, name: "Unqualified" });
     public static readonly Lost = new LeadStatus({ id: 4, name: "Lost" });
     public static readonly Won = new LeadStatus({ id: 5, name: "Won" });
+
+    // No campaign -> InActive
+    // In campaign -> Active
+    // Lost / Won / Unqualified
 
     constructor(partial: Partial<LeadStatus>) {
         super(partial);

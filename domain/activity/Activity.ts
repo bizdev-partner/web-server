@@ -38,6 +38,9 @@ export class Activity extends AggregateRoot {
     @Schema({ type: PriorityRules, embedded: true})
     public rules: PriorityRules;
 
+    @Schema({ type: Boolean })
+    public flagged: boolean;
+
     constructor(activity?: Partial<Activity>) {
         super(activity);
         this.type = activity?.type ?? ActivityType.EmailOutreach; // Default to Email Outreach
@@ -49,6 +52,7 @@ export class Activity extends AggregateRoot {
         this.notes = activity?.notes ?? [];
         this.leadId = activity?.leadId ?? undefined;
         this.campaignId = activity?.campaignId ?? undefined;
+        this.flagged = activity?.flagged ?? false;
         this.rules = new PriorityRules(activity?.rules ?? {});
     }
 
@@ -86,6 +90,11 @@ export class Activity extends AggregateRoot {
     public setRules(rules: Partial<PriorityRules>) {
         this.rules = new PriorityRules({ ...this.rules, ...rules });
         this.addDomainEvent(new Contracts.ActivityRulesChanged(this));
+    }
+
+    public setFlag(flag: boolean) {
+        this.flagged = flag;
+        this.addDomainEvent(new Contracts.ActivityFlagged(this.id.value, flag))
     }
 
     /**
