@@ -27,6 +27,27 @@ export class LaunchCampaignCommand extends Model {
     public endDate: Date;
 }
 
+export class UpdateCampaignCommand extends Model {
+    @Field("Campaign ID", FieldType.Text)
+    @Validation({ required: true })
+    public campaignId: string;
+
+    @Field("Name", FieldType.Text)
+    @Validation({ required: true })
+    public name: string;
+
+    @Field("Start Date", FieldType.Text)
+    @Validation({ required: true })
+    public startDate: Date;
+
+    @Field("End Date", FieldType.Text)
+    @Validation({ required: true })
+    public endDate: Date;
+
+    @Field("Target Leads", FieldType.Text)
+    public leads: string[];
+}
+
 export class PauseCampaignCommand extends Model {
     @Field("Campaign ID", FieldType.Text)
     @Validation({ required: true })
@@ -71,6 +92,7 @@ export class CompleteCampaignCommand extends Model {
 }
 
 export type ILaunchCampaignCommand = Pick<LaunchCampaignCommand, "campaignId" | "salesPackageId" | "workflowId" | "leads" | "startDate" | "endDate">;
+export type IUpdateCampaignCommand = Pick<UpdateCampaignCommand, "campaignId" | "leads" | "startDate" | "endDate" | "name">;
 
 export type IPauseCampaignCommand = Pick<PauseCampaignCommand, "campaignId">;
 

@@ -127,7 +127,14 @@ describe("Campaign Domain Tests", () => {
 
             await repository.save(campaign);
 
-            const launchedCampaign = await service.launchCampaign({ campaignId: campaign.id.value });
+            const launchedCampaign = await service.launchCampaign({ 
+                campaignId: campaign.id.value, 
+                workflowId: campaign.workflowId.value, 
+                salesPackageId: campaign.salesPackageId.value, 
+                startDate: new Date(), 
+                endDate: new Date(), 
+                leads: [] 
+            });
             expect(launchedCampaign.status).toBe(CampaignStatus.Active);
         });
 

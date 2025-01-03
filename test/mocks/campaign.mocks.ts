@@ -41,6 +41,10 @@ export class MockCampaignService implements ICampaignService {
         this.repository = repository;
     }
 
+    async updateCampaign(command: Contracts.IUpdateCampaignCommand): Promise<Campaign> {        
+        return await this.repository.findById(new GlobalIdentifier(command.campaignId));
+    }
+
     async launchCampaign(command: Contracts.ILaunchCampaignCommand): Promise<Campaign> {
         const campaign = await this.repository.findById(new GlobalIdentifier(command.campaignId));
         if (!campaign) {

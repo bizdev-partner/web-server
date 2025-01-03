@@ -9,6 +9,12 @@ export interface ICampaignService {
      * @param command The command containing details to launch a campaign.
      * @returns The launched campaign.
      */
+    updateCampaign(command: Contracts.IUpdateCampaignCommand): Promise<Campaign>;
+    /**
+     * Validates and launches a new campaign.
+     * @param command The command containing details to launch a campaign.
+     * @returns The launched campaign.
+     */
     launchCampaign(command: Contracts.ILaunchCampaignCommand): Promise<Campaign>;
 
     /**

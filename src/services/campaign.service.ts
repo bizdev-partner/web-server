@@ -11,6 +11,12 @@ import { Activity, ActivityStatus } from '@domain/activity';
 export class CampaignService implements ICampaignService {
     constructor(private readonly campaigns: CampaignRepository) {}
 
+    async updateCampaign(command: Contracts.IUpdateCampaignCommand): Promise<Campaign> {
+        const campaign = await this.campaigns.findById(command.campaignId);
+        if (!campaign) throw new Error('Campaign not found');
+        return campaign;        
+    }
+
     async getCampaignDetails(query: Contracts.IGetCampaignDetailsQuery): Promise<Campaign> {
         const campaign = await this.campaigns.findById(query.campaignId);
         if (!campaign) throw new Error('Campaign not found');
