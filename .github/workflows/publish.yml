@@ -1,0 +1,35 @@
+name: Publish to GitHub Packages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Configure npm authentication
+        run: |
+          echo "@vannatta-software:registry=https://npm.pkg.github.com" >> ~/.npmrc
+          echo "@bizdev-partner:registry=https://npm.pkg.github.com" >> ~/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.DEPLOY_TOKEN }}" >> ~/.npmrc
+
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Publish domain package
+        run: |
+          npm run build
+          npm publish --access public

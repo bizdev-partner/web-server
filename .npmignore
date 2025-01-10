@@ -1,0 +1,6 @@
+**/*
+
+!dist/domain/**/*.ts
+!dist/domain/**/*.js
+
+node_modules
