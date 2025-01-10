@@ -38,7 +38,7 @@ export class CampaignRepository extends BaseRepository<Campaign> {
         return new Campaign({
             id: new GlobalIdentifier(doc._id),
             name: doc.name,
-            salesPackageId: new UniqueIdentifier({ value: doc.salesPackageId }),
+            salesPackageId: new UniqueIdentifier({ value: doc.salesPackageId.value }),
             targetLeads: doc.targetLeads.map((lead) => new UniqueIdentifier(lead)),
             workflowId: new UniqueIdentifier({ value: doc.workflowId }),
             activities: doc.campaignActivities, // Assume mapping logic for activities is in the Campaign entity
