@@ -40,8 +40,6 @@ export class SalesPackageService implements ISalesPackageService {
     }
 
     async updatePackage(command: Contracts.IUpdatePackageCommand): Promise<SalesPackage> {
-        console.log(command)
-
         const salesPackage = await this.getPackageDetails(command);
         salesPackage.name = command.updatedFields.name ?? salesPackage.name;
         salesPackage.pricing = new Pricing({ ...salesPackage.pricing, ...command.updatedFields.pricing });

@@ -27,8 +27,6 @@ describe('MongoSchema for Lead', () => {
 
         const extractedSchema = extractRelevantSchema(schema);
 
-        console.log(extractedSchema)
-
         expect(extractedSchema).toMatchObject(expectedSchema);
 
         // Ensure _id is correctly set to a UUID

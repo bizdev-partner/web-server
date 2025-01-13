@@ -23,8 +23,6 @@ export class LeadRepository extends BaseRepository<Lead> {
     async findByEmail(email: string): Promise<Lead[]> {
         const documents = await this.model.find({ "contactInfo.email": email }).exec();
 
-        console.log(documents);
-
         return documents.map(this.toDomain);
     }
 

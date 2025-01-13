@@ -45,6 +45,10 @@ export class ActivityService implements IActivityService {
             if (!activity)
                 return;
 
+            if (!activity.id.value || activity.id.value == "") {
+                activity.id.value = command.activityId;
+            }
+            
             try {
                 activity.priority = PriorityType.fromName(command.priority);
             } catch {}
@@ -65,10 +69,12 @@ export class ActivityService implements IActivityService {
 
             activity.notes = command.notes ?? [];
             activity.leadId = command.leadId ? new UniqueIdentifier({ value: command.leadId}) : undefined;
-
             activity.rules.pending = command.rules?.pending ?? activity.rules.pending;
             activity.rules.due = command.rules?.due ?? activity.rules.due;
             activity.rules.overdue = command.rules?.overdue ?? activity.rules.overdue;
+
+            if (!activity.id.value)
+                return activity;
 
             await this.activities.update(activity);
 

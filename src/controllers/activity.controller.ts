@@ -54,7 +54,6 @@ export class ActivityController {
 
     @Delete(':id')
     async cancelActivity(@Param('id') id: string) {
-        console.log(id)
         return this.activityService.cancelActivity({ activityId: id });
     }
 }

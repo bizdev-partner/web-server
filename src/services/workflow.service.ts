@@ -15,8 +15,6 @@ export class WorkflowService {
     ) {}
 
     async createWorkflow(command: Contracts.ICreateWorkflowCommand): Promise<Workflow> {
-        console.log(command)
-
         const workflow = new Workflow({
             name: command.name,
             description: command.description,

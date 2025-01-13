@@ -18,4 +18,4 @@ RUN npm run build
 EXPOSE 3000
 
 # Start the Node.js server
-CMD ["npm", "start"]
+CMD ["npm", "preview"]

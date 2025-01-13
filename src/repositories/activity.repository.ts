@@ -45,7 +45,7 @@ export class ActivityRepository extends BaseRepository<Activity> {
      * @param doc The MongoDB document.
      * @returns The mapped `Activity` domain entity.
      */
-    private toDomain(doc: any): Activity {
+    public toDomain(doc: any): Activity {
         return new Activity({
             id: new GlobalIdentifier(doc._id),
             type: Activity.getType(doc.type),
