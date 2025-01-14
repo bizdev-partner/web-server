@@ -63,10 +63,12 @@ export class ActivityService implements IActivityService {
             if (command.outcome) {
                 activity.outcome = command.outcome;
                 activity.status = ActivityStatus.Complete;
+                activity.completionDate = new Date();
             } else {
                 activity.status = ActivityStatus.Open;
             }
 
+            activity.flagged = command.flagged ?? activity.flagged;
             activity.notes = command.notes ?? [];
             activity.leadId = command.leadId ? new UniqueIdentifier({ value: command.leadId}) : undefined;
             activity.rules.pending = command.rules?.pending ?? activity.rules.pending;

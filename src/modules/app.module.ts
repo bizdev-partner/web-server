@@ -58,7 +58,6 @@ const appRoot = join(__dirname, '..', '..', '..')
     }),
     EventEmitterModule.forRoot(),
     NotificationModule,
-    ExampleModule,
     ActivityModule,
     LeadModule,
     ClientModule,

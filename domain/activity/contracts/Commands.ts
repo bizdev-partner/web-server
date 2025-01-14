@@ -66,11 +66,12 @@ export class UpdateActivityCommand {
     public rules?: PriorityRules;
     public notes: Note[] = [];
     public outcome: ActivityOutcome;
+    public flagged: boolean;
 }
 
 export type IUpdateActivityCommand = Pick<
     UpdateActivityCommand,
-    "activityId" | "campaignId" | "priority" | "status" | "type" | "leadId" | "rules" | "notes" | "outcome"
+    "activityId" | "campaignId" | "priority" | "status" | "type" | "leadId" | "rules" | "notes" | "outcome" | "flagged"
 >;
 
 export type ICompleteActivityCommand = Pick<
